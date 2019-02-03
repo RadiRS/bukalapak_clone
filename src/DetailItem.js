@@ -1,23 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Container, Content, Text } from 'native-base';
 
 import AppBar from './components/AppBar';
 
-const DetailItem = () => {
-  return (
-    <Container>
-      <AppBar />
-      <Content>
-        <Text>;lkasjdf</Text>
-        <Text>;lkasjdf</Text>
-        <Text>;lkasjdf</Text>
-        <Text>;lkasjdf</Text>
-        <Text>;lkasjdf</Text>
-        <Text>;lkasjdf</Text>
-        <Text>;lkasjdf</Text>
-      </Content>
-    </Container>
-  );
-};
-
-export default DetailItem;
+export default class DetailItem extends Component {
+  render() {
+    return (
+      <Container>
+        <AppBar />
+        <Content>
+          <Text>{this.props.productId}</Text>
+        </Content>
+      </Container>
+    );
+  }
+}
