@@ -5,13 +5,13 @@ import { ScrollView } from 'react-native';
 import { Container } from 'native-base';
 
 // Components
-import AppBar from '../src/components/AppBar';
-import CartItem from '../src/components/CartItem';
+import AppBar from './components/AppBar';
+import CartItem from './components/CartItem';
 
 // Data Services
 import { getProducts } from './services/fakeProductServices';
 
-export default class ListItemForm extends Component {
+export default class ProductList extends Component {
   state = {
     products: []
   };
@@ -22,7 +22,7 @@ export default class ListItemForm extends Component {
   }
 
   handlePressProduct = productId => {
-    Actions.detailItem({ productId });
+    Actions.productDetail({ productId });
   };
 
   render() {

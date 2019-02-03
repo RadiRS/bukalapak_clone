@@ -1,15 +1,15 @@
 import React from 'react';
 import { Scene, Router, Stack } from 'react-native-router-flux';
 
-import ListItemForm from './src/ListItemForm';
-import DetailItem from './src/DetailItem';
+import ProductList from './src/ProductList';
+import ProductDetail from './src/ProductDetail';
 
 const RouterComponent = () => {
   return (
     <Router>
       <Stack key="root">
-        <Scene key="listItem" component={ListItemForm} hideNavBar initial />
-        <Scene key="detailItem" component={DetailItem} hideNavBar />
+        <Scene key="productList" component={ProductList} hideNavBar initial />
+        <Scene key="productDetail" component={ProductDetail} hideNavBar />
       </Stack>
     </Router>
   );

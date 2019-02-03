@@ -7,11 +7,11 @@ import AppBar from './components/AppBar';
 // Data Services
 import { getProduct } from './services/fakeProductServices';
 
-export default class DetailItem extends Component {
+export default class ProductDetail extends Component {
   state = {
     data: {
       name: '',
-      imgUrl: 'kdkd',
+      imgUrl: 'image',
       price: '',
       description: ''
     }
@@ -40,7 +40,7 @@ export default class DetailItem extends Component {
           <Text>{price}</Text>
           <Text>{description}</Text>
           <Button block>
-            <Text>TEst</Text>
+            <Text>Beli</Text>
           </Button>
         </Content>
       </Container>
