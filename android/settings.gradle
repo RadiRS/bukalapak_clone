@@ -1,0 +1,3 @@
+rootProject.name = 'clonning_bukalapak'
+
+include ':app'
