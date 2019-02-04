@@ -19,7 +19,7 @@ const CartItem = props => {
           <Text>{name}</Text>
         </CardItem>
         <CardItem>
-          <Text>Rp {price}</Text>
+          <Text style={{ color: '#E40044' }}>Rp {price}</Text>
         </CardItem>
       </Card>
     </TouchableOpacity>

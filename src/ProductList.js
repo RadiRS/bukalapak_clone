@@ -29,14 +29,13 @@ export default class ProductList extends Component {
 
     return (
       <Container>
-        <AppBar title="Flash Deal" />
+        <AppBar showBackNav={false} title="Flash Deal" />
         <Content
           contentContainerStyle={{
             paddingTop: 10,
-            justifyContent: 'space-evenly',
-            alignItems: 'flex-start',
             flexDirection: 'row',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            justifyContent: 'space-evenly'
           }}
         >
           {products.map((item, index) => (

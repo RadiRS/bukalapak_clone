@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Container, Content, Text, Thumbnail, Button, Card } from 'native-base';
+import { Actions } from 'react-native-router-flux';
+import { Container, Content, Text, Thumbnail, Card } from 'native-base';
 
 // Components
 import AppBar from './components/AppBar';
+import Button from './components/Button';
 
 // Data Services
 import { getProduct } from './services/fakeProductServices';
@@ -23,6 +25,10 @@ export default class ProductDetail extends Component {
 
     this.setState({ data });
   }
+
+  handlePressBuy = () => {
+    Actions.cartList();
+  };
 
   render() {
     const { name, imgUrl, price, description } = this.state.data;
@@ -49,9 +55,11 @@ export default class ProductDetail extends Component {
             <Text style={{ fontSize: 25 }}>Deskripsi</Text>
             <Text style={{ marginTop: 5 }}>{description}</Text>
           </Card>
-          <Button block>
-            <Text>Beli</Text>
-          </Button>
+          <Button
+            onPress={this.handlePressBuy}
+            block={true}
+            buttonName="Beli Sekarang"
+          />
         </Content>
       </Container>
     );
