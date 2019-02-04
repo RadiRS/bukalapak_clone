@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Text, Thumbnail, Button } from 'native-base';
+import { Container, Content, Text, Thumbnail, Button, Card } from 'native-base';
 
 // Components
 import AppBar from './components/AppBar';
@@ -30,15 +30,25 @@ export default class ProductDetail extends Component {
     return (
       <Container>
         <AppBar showBackNav />
-        <Content>
+        <Content contentContainerStyle={{ display: 'flex', flex: 1 }}>
           <Thumbnail
             square
             source={{ uri: imgUrl }}
-            style={{ height: 200, width: null, flex: 1 }}
+            style={{ height: 200, width: null, flex: 0.8 }}
           />
-          <Text>{name}</Text>
-          <Text>{price}</Text>
-          <Text>{description}</Text>
+          <Text style={{ margin: 10, fontSize: 40 }}>{name}</Text>
+          <Text style={{ margin: 10, fontSize: 30 }}>Rp. {price}</Text>
+          <Card
+            noShadow
+            style={{
+              padding: 10,
+              marginBottom: 10,
+              backgroundColor: '#F5F5F5'
+            }}
+          >
+            <Text style={{ fontSize: 25 }}>Deskripsi</Text>
+            <Text style={{ marginTop: 5 }}>{description}</Text>
+          </Card>
           <Button block>
             <Text>Beli</Text>
           </Button>
