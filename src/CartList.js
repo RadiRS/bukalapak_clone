@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Actions } from 'react-native-router-flux';
 import {
   Container,
   Content,
@@ -16,6 +17,10 @@ import Button from './components/Button';
 export default class CartList extends Component {
   state = {
     product: []
+  };
+
+  handlePressPay = () => {
+    Actions.payment();
   };
 
   render() {
@@ -80,7 +85,11 @@ export default class CartList extends Component {
             </Content>
           </CardItem>
           <CardItem style={{ flexDirection: 'column' }}>
-            <Button block={true} buttonName="Pembayaran" />
+            <Button
+              onPress={this.handlePressPay}
+              block={true}
+              buttonName="Pembayaran"
+            />
           </CardItem>
         </Card>
       </Container>
