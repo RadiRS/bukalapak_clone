@@ -72,6 +72,105 @@ export default class CartList extends Component {
                   </Text>
                 </CardItem>
               </Card>
+              <Card noShadow>
+                <CardItem>
+                  <Thumbnail
+                    style={{ flex: 0.5 }}
+                    square
+                    source={{ uri: 'http://lorempixel.com/640/480' }}
+                  />
+                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
+                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
+                    <Content
+                      contentContainerStyle={{
+                        flexDirection: 'row'
+                      }}
+                    >
+                      <Button buttonName="+" />
+                      <Input
+                        value={'0'}
+                        style={{
+                          width: 10,
+                          textAlign: 'center'
+                        }}
+                      />
+                      <Button buttonName="-" />
+                    </Content>
+                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
+                  </Content>
+                  <Text
+                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
+                  >
+                    Rp 4000
+                  </Text>
+                </CardItem>
+              </Card>
+              <Card noShadow>
+                <CardItem>
+                  <Thumbnail
+                    style={{ flex: 0.5 }}
+                    square
+                    source={{ uri: 'http://lorempixel.com/640/480' }}
+                  />
+                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
+                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
+                    <Content
+                      contentContainerStyle={{
+                        flexDirection: 'row'
+                      }}
+                    >
+                      <Button buttonName="+" />
+                      <Input
+                        value={'0'}
+                        style={{
+                          width: 10,
+                          textAlign: 'center'
+                        }}
+                      />
+                      <Button buttonName="-" />
+                    </Content>
+                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
+                  </Content>
+                  <Text
+                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
+                  >
+                    Rp 4000
+                  </Text>
+                </CardItem>
+              </Card>
+              <Card noShadow>
+                <CardItem>
+                  <Thumbnail
+                    style={{ flex: 0.5 }}
+                    square
+                    source={{ uri: 'http://lorempixel.com/640/480' }}
+                  />
+                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
+                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
+                    <Content
+                      contentContainerStyle={{
+                        flexDirection: 'row'
+                      }}
+                    >
+                      <Button buttonName="+" />
+                      <Input
+                        value={'0'}
+                        style={{
+                          width: 10,
+                          textAlign: 'center'
+                        }}
+                      />
+                      <Button buttonName="-" />
+                    </Content>
+                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
+                  </Content>
+                  <Text
+                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
+                  >
+                    Rp 4000
+                  </Text>
+                </CardItem>
+              </Card>
               <Content
                 contentContainerStyle={{
                   justifyContent: 'space-between',
