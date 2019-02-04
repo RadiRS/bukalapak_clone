@@ -1,29 +1,31 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Header, Body, Title, Right, Icon, Left } from 'native-base';
+import { Header, Body, Title, Right, Icon, Left, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
 const AppBar = props => {
   const { showBackNav, title } = props;
 
-  // display() {
-  //   if (showBackNav) {
-  //     return(
-  //       <TouchableOpacity onPress={() => Actions.pop()} style={{display:''}}>
-  //         <Icon name="arrow-back" style={{ color: 'white' }} />
-  //       </TouchableOpacity>
-  //     )
-  //   }
-  // }
-
   return (
-    <Header>
-      <Left />
+    <Header style={{ backgroundColor: '#E40044' }}>
+      <Left>
+        {showBackNav ? (
+          <Button onPress={() => Actions.pop()} transparent>
+            <Icon name="arrow-back" />
+          </Button>
+        ) : (
+          <Button onPress={() => alert('Menu')} transparent>
+            <Icon name="menu" />
+          </Button>
+        )}
+      </Left>
+
       <Body>
         <Title>{title}</Title>
       </Body>
       <Right>
-        <Icon name="cart" />
+        <Button onPress={() => alert('Cart')} transparent>
+          <Icon name="cart" />
+        </Button>
       </Right>
     </Header>
   );

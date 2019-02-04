@@ -29,7 +29,7 @@ export default class ProductDetail extends Component {
 
     return (
       <Container>
-        <AppBar />
+        <AppBar showBackNav />
         <Content>
           <Thumbnail
             square

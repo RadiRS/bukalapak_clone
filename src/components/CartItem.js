@@ -1,14 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Card, CardItem, Text, Thumbnail } from 'native-base';
-import { Actions } from 'react-native-router-flux';
 
 const CartItem = props => {
   const { _id, imgUrl, name, price } = props.products;
 
   return (
     <TouchableOpacity onPress={() => props.onPress(_id)}>
-      <Card>
+      <Card style={{ width: 230 }}>
         <CardItem cardBody>
           <Thumbnail
             square

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 
-import { ScrollView } from 'react-native';
-import { Container } from 'native-base';
+import { Container, Content } from 'native-base';
 
 // Components
 import AppBar from './components/AppBar';
@@ -30,25 +29,24 @@ export default class ProductList extends Component {
 
     return (
       <Container>
-        <AppBar showBackNav={false} title="List Item" />
-        <Container
-          style={{
-            display: 'flex',
-            flex: 1,
-            flexDirection: 'column',
-            flexWrap: 'nowrap'
+        <AppBar title="Flash Deal" />
+        <Content
+          contentContainerStyle={{
+            paddingTop: 10,
+            justifyContent: 'space-evenly',
+            alignItems: 'flex-start',
+            flexDirection: 'row',
+            flexWrap: 'wrap'
           }}
         >
-          <ScrollView>
-            {products.map((item, index) => (
-              <CartItem
-                key={index}
-                products={item}
-                onPress={this.handlePressProduct}
-              />
-            ))}
-          </ScrollView>
-        </Container>
+          {products.map((item, index) => (
+            <CartItem
+              key={index}
+              products={item}
+              onPress={this.handlePressProduct}
+            />
+          ))}
+        </Content>
       </Container>
     );
   }
