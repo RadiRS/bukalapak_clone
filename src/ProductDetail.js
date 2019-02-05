@@ -8,6 +8,7 @@ import Button from './components/Button';
 
 // Data Services
 import { getProduct } from './services/fakeProductServices';
+import { saveProduct } from './services/fakeCartServices';
 
 export default class ProductDetail extends Component {
   state = {
@@ -27,6 +28,10 @@ export default class ProductDetail extends Component {
   }
 
   handlePressBuy = () => {
+    const product = this.state.data;
+
+    saveProduct(product);
+
     Actions.cartList();
   };
 
@@ -36,14 +41,20 @@ export default class ProductDetail extends Component {
     return (
       <Container>
         <AppBar showBackNav />
-        <Content contentContainerStyle={{ display: 'flex', flex: 1 }}>
+        <Content
+          padder
+          contentContainerStyle={{
+            flex: 1,
+            justifyContent: 'space-between'
+          }}
+        >
           <Thumbnail
             square
             source={{ uri: imgUrl }}
-            style={{ height: 200, width: null, flex: 0.8 }}
+            style={{ width: null, flex: 0.8 }}
           />
-          <Text style={{ margin: 10, fontSize: 40 }}>{name}</Text>
-          <Text style={{ margin: 10, fontSize: 30 }}>Rp. {price}</Text>
+          <Text style={{ fontSize: 30 }}>{name}</Text>
+          <Text style={{ fontSize: 25 }}>Rp. {price}</Text>
           <Card
             noShadow
             style={{

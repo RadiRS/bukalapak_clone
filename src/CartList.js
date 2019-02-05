@@ -14,9 +14,24 @@ import {
 import AppBar from './components/AppBar';
 import Button from './components/Button';
 
+// Data Services
+import { getProducts, deleteProduct } from './services/fakeCartServices';
+
 export default class CartList extends Component {
   state = {
-    product: []
+    products: []
+  };
+
+  componentDidMount() {
+    const products = [...getProducts()];
+    this.setState({ products });
+  }
+
+  handlePressRemoveItemCart = _id => {
+    const products = this.state.products.filter(m => m._id !== _id);
+    this.setState({ products });
+
+    deleteProduct(_id);
   };
 
   handlePressPay = () => {
@@ -37,140 +52,52 @@ export default class CartList extends Component {
                 }}
               >
                 <Text>Barang</Text>
+                <Text>{this.state.products.length}</Text>
                 <Text>Sub Total</Text>
               </Content>
-              <Card noShadow>
-                <CardItem>
-                  <Thumbnail
-                    style={{ flex: 0.5 }}
-                    square
-                    source={{ uri: 'http://lorempixel.com/640/480' }}
-                  />
-                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
+              {this.state.products.map((product, index) => (
+                <Card key={index} noShadow>
+                  <CardItem>
+                    <Thumbnail
+                      style={{ flex: 0.5 }}
+                      square
+                      source={{ uri: product.imgUrl }}
+                    />
                     <Content
-                      contentContainerStyle={{
-                        flexDirection: 'row'
-                      }}
+                      contentContainerStyle={{ flex: 1, marginLeft: 10 }}
                     >
-                      <Button buttonName="+" />
-                      <Input
-                        value={'0'}
-                        style={{
-                          width: 10,
-                          textAlign: 'center'
+                      <Text style={{ fontSize: 20 }}>{product.name}</Text>
+                      <Content
+                        contentContainerStyle={{
+                          flexDirection: 'row'
                         }}
-                      />
-                      <Button buttonName="-" />
+                      >
+                        <Button buttonName="+" />
+                        <Input
+                          value={product.count.toString()}
+                          style={{
+                            width: 5,
+                            textAlign: 'center'
+                          }}
+                        />
+                        <Button buttonName="-" />
+                      </Content>
+                      <Text style={{ fontSize: 20 }}>Rp. {product.price}</Text>
                     </Content>
-                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
-                  </Content>
-                  <Text
-                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
-                  >
-                    Rp 4000
-                  </Text>
-                </CardItem>
-              </Card>
-              <Card noShadow>
-                <CardItem>
-                  <Thumbnail
-                    style={{ flex: 0.5 }}
-                    square
-                    source={{ uri: 'http://lorempixel.com/640/480' }}
-                  />
-                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
-                    <Content
-                      contentContainerStyle={{
-                        flexDirection: 'row'
-                      }}
+                    <Text
+                      style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
                     >
-                      <Button buttonName="+" />
-                      <Input
-                        value={'0'}
-                        style={{
-                          width: 10,
-                          textAlign: 'center'
-                        }}
-                      />
-                      <Button buttonName="-" />
-                    </Content>
-                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
-                  </Content>
-                  <Text
-                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
-                  >
-                    Rp 4000
-                  </Text>
-                </CardItem>
-              </Card>
-              <Card noShadow>
-                <CardItem>
-                  <Thumbnail
-                    style={{ flex: 0.5 }}
-                    square
-                    source={{ uri: 'http://lorempixel.com/640/480' }}
-                  />
-                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
-                    <Content
-                      contentContainerStyle={{
-                        flexDirection: 'row'
-                      }}
-                    >
-                      <Button buttonName="+" />
-                      <Input
-                        value={'0'}
-                        style={{
-                          width: 10,
-                          textAlign: 'center'
-                        }}
-                      />
-                      <Button buttonName="-" />
-                    </Content>
-                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
-                  </Content>
-                  <Text
-                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
-                  >
-                    Rp 4000
-                  </Text>
-                </CardItem>
-              </Card>
-              <Card noShadow>
-                <CardItem>
-                  <Thumbnail
-                    style={{ flex: 0.5 }}
-                    square
-                    source={{ uri: 'http://lorempixel.com/640/480' }}
-                  />
-                  <Content contentContainerStyle={{ flex: 1, marginLeft: 10 }}>
-                    <Text style={{ fontSize: 20 }}>Wathch :LJDflk</Text>
-                    <Content
-                      contentContainerStyle={{
-                        flexDirection: 'row'
-                      }}
-                    >
-                      <Button buttonName="+" />
-                      <Input
-                        value={'0'}
-                        style={{
-                          width: 10,
-                          textAlign: 'center'
-                        }}
-                      />
-                      <Button buttonName="-" />
-                    </Content>
-                    <Text style={{ fontSize: 20 }}>Rp 1000</Text>
-                  </Content>
-                  <Text
-                    style={{ flex: 0.5, fontSize: 20, alignSelf: 'flex-end' }}
-                  >
-                    Rp 4000
-                  </Text>
-                </CardItem>
-              </Card>
+                      Rp 4000
+                    </Text>
+                    <Button
+                      onPress={() =>
+                        this.handlePressRemoveItemCart(product._id)
+                      }
+                      buttonName="X"
+                    />
+                  </CardItem>
+                </Card>
+              ))}
               <Content
                 contentContainerStyle={{
                   justifyContent: 'space-between',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Card, CardItem, Text, Thumbnail } from 'native-base';
+import { Card, CardItem, Text, Thumbnail, H3 } from 'native-base';
 
 const CartItem = props => {
   const { _id, imgUrl, name, price } = props.products;
@@ -19,10 +19,14 @@ const CartItem = props => {
           />
         </CardItem>
         <CardItem>
-          <Text>{name}</Text>
+          <Text>
+            <H3>{name}</H3>
+          </Text>
         </CardItem>
         <CardItem>
-          <Text style={{ color: '#E40044' }}>Rp {price}</Text>
+          <Text>
+            <H3 style={{ color: '#E40044' }}> Rp {price}</H3>
+          </Text>
         </CardItem>
       </Card>
     </TouchableOpacity>
