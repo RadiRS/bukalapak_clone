@@ -32,7 +32,7 @@ export default class ProductList extends Component {
         <AppBar showBackNav={false} title="Flash Deal" />
         <Content
           contentContainerStyle={{
-            paddingTop: 10,
+            display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'space-evenly'

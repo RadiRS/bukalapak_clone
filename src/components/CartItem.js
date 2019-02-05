@@ -6,8 +6,11 @@ const CartItem = props => {
   const { _id, imgUrl, name, price } = props.products;
 
   return (
-    <TouchableOpacity onPress={() => props.onPress(_id)}>
-      <Card style={{ width: 230 }}>
+    <TouchableOpacity
+      onPress={() => props.onPress(_id)}
+      style={{ flexBasis: '50%' }}
+    >
+      <Card style={{}}>
         <CardItem cardBody>
           <Thumbnail
             square
