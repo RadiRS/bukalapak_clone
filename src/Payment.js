@@ -22,7 +22,7 @@ export default class Payment extends Component {
   render() {
     return (
       <Container>
-        <AppBar />
+        <AppBar showCartNav={false} />
         <Content
           contentContainerStyle={{
             padding: 10,
