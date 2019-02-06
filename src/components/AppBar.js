@@ -1,17 +1,25 @@
 import React from 'react';
-import { Header, Body, Title, Right, Icon, Left } from 'native-base';
+import { Header, Body, Title, Right, Badge, Left, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Button from '../components/Button';
 
+// Data Services
+import { getProducts } from '../services/fakeCartServices';
+
 const AppBar = props => {
-  const { showBackNav = true, showCartNav = true, title } = props;
+  const { showBackNav = true, showCartNav = true, title, cart } = props;
+  // const cart = getProducts().length;
 
   return (
-    <Header transparent style={{ backgroundColor: '#E40044' }}>
+    <Header
+      androidStatusBarColor="#E40044"
+      transparent
+      style={{ backgroundColor: '#E40044' }}
+    >
       <Left style={{ flex: 1 }}>
         {showBackNav ? (
           <Button
-            onPress={() => Actions.pop()}
+            onPress={() => Actions.popTo('productList')}
             transparent
             transparent={true}
             iconName="arrow-back"
@@ -29,17 +37,44 @@ const AppBar = props => {
         <Title>{title}</Title>
       </Body>
       <Right style={{ flex: 1 }}>
-        {showCartNav ? (
-          <Button
-            onShow={true}
-            onPress={() => Actions.cartList()}
-            transparent={true}
-            iconName="cart"
-          />
-        ) : null}
+        <Button
+          onShow={true}
+          onPress={() => alert('Search')}
+          transparent={true}
+          iconName="search"
+        />
+        <Button
+          onShow={true}
+          onPress={() => alert('log-in')}
+          transparent={true}
+          iconName="log-out"
+        />
+        {renderCartButton(showCartNav, cart)}
       </Right>
     </Header>
   );
+};
+
+const renderCartButton = (showCartNav, cart) => {
+  if (showCartNav) {
+    return (
+      <>
+        <Button
+          onShow={true}
+          onPress={() => Actions.cartList()}
+          transparent={true}
+          iconName="cart"
+          mg={5}
+        />
+        <Badge
+          style={{ position: 'absolute', backgroundColor: '#FDD938' }}
+          warning
+        >
+          <Text style={{ color: '#E40044' }}>{cart}</Text>
+        </Badge>
+      </>
+    );
+  }
 };
 
 export default AppBar;

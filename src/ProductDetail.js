@@ -8,7 +8,7 @@ import Button from './components/Button';
 
 // Data Services
 import { getProduct } from './services/fakeProductServices';
-import { saveProduct } from './services/fakeCartServices';
+import { saveProduct, getProducts as Cart } from './services/fakeCartServices';
 
 export default class ProductDetail extends Component {
   state = {
@@ -17,20 +17,24 @@ export default class ProductDetail extends Component {
       imgUrl: 'image',
       price: '',
       description: ''
-    }
+    },
+    cart: 0
   };
 
   componentDidMount() {
-    const { productId } = this.props;
+    const { productId, cart } = this.props;
     const data = getProduct(productId);
 
-    this.setState({ data });
+    this.setState({ data, cart });
   }
 
   handlePressBuy = () => {
     const product = this.state.data;
 
     saveProduct(product);
+
+    const cart = Cart().length;
+    this.setState({ cart });
 
     Actions.cartList();
   };
@@ -40,7 +44,7 @@ export default class ProductDetail extends Component {
 
     return (
       <Container>
-        <AppBar showBackNav />
+        <AppBar showBackNav cart={this.state.cart} />
         <Content
           padder
           contentContainerStyle={{

@@ -9,27 +9,37 @@ import CartItem from './components/CartItem';
 
 // Data Services
 import { getProducts } from './services/fakeProductServices';
+import { getProducts as Cart, saveProduct } from './services/fakeCartServices';
 
 export default class ProductList extends Component {
   state = {
-    products: []
+    products: [],
+    cart: Cart().length
   };
 
   componentDidMount() {
     const products = [...getProducts()];
-    this.setState({ products });
+    const cart = Cart().length;
+    this.setState({ products, cart });
   }
 
+  handlePressBuyItem = product => {
+    saveProduct(product);
+    const cart = Cart().length;
+    this.setState({ cart });
+  };
+
   handlePressProduct = productId => {
-    Actions.productDetail({ productId });
+    const cart = Cart().length;
+    Actions.productDetail({ productId, cart });
   };
 
   render() {
-    const { products } = this.state;
+    const { products, cart } = this.state;
 
     return (
       <Container>
-        <AppBar showBackNav={false} title="Flash Deal" />
+        <AppBar showBackNav={false} title="Flash Deal" cart={cart} />
         <Content
           contentContainerStyle={{
             display: 'flex',
@@ -40,6 +50,7 @@ export default class ProductList extends Component {
         >
           {products.map((item, index) => (
             <CartItem
+              onPressBuy={this.handlePressBuyItem}
               key={index}
               products={item}
               onPress={this.handlePressProduct}

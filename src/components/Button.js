@@ -8,13 +8,20 @@ const ButtonComponent = props => {
     onShow = true,
     iconName,
     buttonName,
-    transparent
+    transparent,
+    rounded,
+    buttonColor = '#E40044',
+    margin = 0,
+    mg
   } = props;
 
   return onShow ? (
     <Button
-      rounded
-      style={{ backgroundColor: '#E40044' }}
+      style={{
+        backgroundColor: buttonColor,
+        margin: margin,
+        marginRight: mg
+      }}
       block={block}
       onPress={onPress}
       transparent={transparent}
