@@ -8,12 +8,20 @@ export function getProduct(id) {
   return products.find(m => m._id === id);
 }
 
+export function updateProduct(product) {
+  let productInDb = products.find(m => m._id === product._id);
+  productInDb = product;
+
+  return productInDb;
+}
+
 export function saveProduct(product) {
   let productInDb = products.find(m => m._id === product._id) || {};
   productInDb.name = product.name;
   productInDb.imgUrl = product.imgUrl;
   productInDb.description = product.description;
   productInDb.price = product.price;
+  productInDb.subPrice = product.price;
   productInDb.count = 1;
   productInDb._id = product._id;
 

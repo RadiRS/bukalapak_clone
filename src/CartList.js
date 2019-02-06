@@ -15,11 +15,16 @@ import AppBar from './components/AppBar';
 import Button from './components/Button';
 
 // Data Services
-import { getProducts, deleteProduct } from './services/fakeCartServices';
+import {
+  getProducts,
+  deleteProduct,
+  updateProduct
+} from './services/fakeCartServices';
 
 export default class CartList extends Component {
   state = {
-    products: []
+    products: [],
+    totalPrice: 0
   };
 
   componentDidMount() {
@@ -38,8 +43,39 @@ export default class CartList extends Component {
     Actions.payment();
   };
 
+  handleIncrementQuantity = product => {
+    const products = [...this.state.products];
+    const index = products.indexOf(product);
+
+    products[index].count++;
+    products[index].subPrice = products[index].price * products[index].count;
+
+    this.setState({ products });
+
+    updateProduct(product);
+  };
+
+  handleDecrementQuantity = product => {
+    const products = [...this.state.products];
+    const index = products.indexOf(product);
+
+    products[index].count--;
+    if (products[index].count <= 1) products[index].count = 1;
+    products[index].subPrice = products[index].price * products[index].count;
+
+    this.setState({ products });
+
+    updateProduct(product);
+  };
+
   render() {
     const { products } = this.state;
+
+    let total = products.reduce(function(prev, cur) {
+      return prev + cur.subPrice;
+    }, 0);
+
+    // this.setState({ totalPrice: total });
 
     return (
       <Container>
@@ -79,7 +115,12 @@ export default class CartList extends Component {
                             flexDirection: 'row'
                           }}
                         >
-                          <Button buttonName="+" />
+                          <Button
+                            buttonName="+"
+                            onPress={() =>
+                              this.handleIncrementQuantity(product)
+                            }
+                          />
                           <Input
                             value={product.count.toString()}
                             style={{
@@ -87,7 +128,12 @@ export default class CartList extends Component {
                               textAlign: 'center'
                             }}
                           />
-                          <Button buttonName="-" />
+                          <Button
+                            buttonName="-"
+                            onPress={() =>
+                              this.handleDecrementQuantity(product)
+                            }
+                          />
                         </Content>
                         <Text style={{ fontSize: 20 }}>
                           Rp. {product.price}
@@ -100,7 +146,7 @@ export default class CartList extends Component {
                           alignSelf: 'flex-end'
                         }}
                       >
-                        Rp 4000
+                        Rp. {product.subPrice}
                       </Text>
                       <Button
                         onPress={() =>
@@ -119,7 +165,7 @@ export default class CartList extends Component {
                   }}
                 >
                   <Text>Total Harga</Text>
-                  <Text>Rp 4000</Text>
+                  <Text>Rp. {total}</Text>
                 </Content>
               </Content>
             </CardItem>
