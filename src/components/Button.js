@@ -12,6 +12,7 @@ const ButtonComponent = props => {
     rounded,
     buttonColor = '#E40044',
     margin = 0,
+    textColor = 'white',
     mg
   } = props;
 
@@ -26,7 +27,13 @@ const ButtonComponent = props => {
       onPress={onPress}
       transparent={transparent}
     >
-      {iconName ? <Icon name={iconName} /> : <Text>{buttonName}</Text>}
+      {iconName ? (
+        <Icon name={iconName} />
+      ) : (
+        <Text style={{ color: textColor, fontSize: 20 }} uppercase={false}>
+          {buttonName}
+        </Text>
+      )}
     </Button>
   ) : null;
 };
