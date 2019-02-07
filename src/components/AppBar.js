@@ -36,7 +36,15 @@ const AppBar = props => {
       <Body style={{ flex: 1, alignItems: 'center' }}>
         <Title>{title}</Title>
       </Body>
-      <Right style={{ flex: 1 }}>
+      <Right style={{ flex: 1 }}>{renderCartButton(showCartNav, cart)}</Right>
+    </Header>
+  );
+};
+
+const renderCartButton = (showCartNav, cart) => {
+  if (showCartNav) {
+    return (
+      <>
         <Button
           onShow={true}
           onPress={() => alert('Search')}
@@ -49,16 +57,6 @@ const AppBar = props => {
           transparent={true}
           iconName="log-out"
         />
-        {renderCartButton(showCartNav, cart)}
-      </Right>
-    </Header>
-  );
-};
-
-const renderCartButton = (showCartNav, cart) => {
-  if (showCartNav) {
-    return (
-      <>
         <Button
           onShow={true}
           onPress={() => Actions.cartList()}
