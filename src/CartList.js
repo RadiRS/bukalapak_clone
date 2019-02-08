@@ -167,6 +167,7 @@ export default class CartList extends Component {
                           onPress={() => this.handleIncrementQuantity(product)}
                         />
                         <Input
+                          keyboardType="number-pad"
                           value={product.count.toString()}
                           style={{
                             width: 5,

@@ -26,22 +26,38 @@ export function updateProduct(product) {
 
 export function saveProduct(product) {
   let productInDb = products.find(m => m._id === product._id) || {};
-  productInDb.name = product.name;
-  productInDb.imgUrl = product.imgUrl;
-  productInDb.description = product.description;
-  productInDb.price = product.price;
-  productInDb.subPrice = product.price;
-  productInDb.count = 1;
-  productInDb._id = product._id;
 
-  products.push(productInDb);
+  console.log(product);
+  console.log(productInDb);
+
+  if (productInDb._id !== product._id) {
+    productInDb.name = product.name;
+    productInDb.imgUrl = product.imgUrl;
+    productInDb.description = product.description;
+    productInDb.price = product.price;
+    productInDb.subPrice = product.price;
+    productInDb.count = 1;
+    productInDb._id = product._id;
+
+    products.push(productInDb);
+  }
+
+  // productInDb.name = product.name;
+  // productInDb.imgUrl = product.imgUrl;
+  // productInDb.description = product.description;
+  // productInDb.price = product.price;
+  // productInDb.subPrice = product.price;
+  // productInDb.count = 1;
+  // productInDb._id = product._id;
+
+  // products.push(productInDb);
 
   // if (!productInDb._id) {
   //   productInDb._id = Date.now().toString();
   //   products.push(productInDb);
   // }
 
-  return productInDb;
+  // return productInDb;
 }
 
 export function deleteProduct(id) {
