@@ -41,9 +41,9 @@ export default class ProductDetail extends Component {
   }
 
   handlePressAdd = product => {
-    // saveProduct(product);
-    // const cart = Cart().length;
-    // this.setState({ cart });
+    saveProduct(product);
+    const cart = Cart().length;
+    this.setState({ cart });
   };
 
   handlePressBuy = () => {
@@ -113,7 +113,7 @@ export default class ProductDetail extends Component {
           >
             <Col style={{ marginRight: 3 }}>
               <Button
-                onPress={this.handlePressAdd}
+                onPress={() => this.handlePressAdd(this.state.data)}
                 buttonColor="#f5f5f5"
                 textColor="#E40044"
                 block={true}

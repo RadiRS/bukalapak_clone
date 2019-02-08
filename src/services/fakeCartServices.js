@@ -57,7 +57,7 @@ export function saveProduct(product) {
   //   products.push(productInDb);
   // }
 
-  // return productInDb;
+  return productInDb;
 }
 
 export function deleteProduct(id) {

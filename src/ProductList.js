@@ -14,7 +14,7 @@ import { getProducts as Cart, saveProduct } from './services/fakeCartServices';
 export default class ProductList extends Component {
   state = {
     products: [],
-    cart: Cart().length
+    cart: 0
   };
 
   componentDidMount() {
