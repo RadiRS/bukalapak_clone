@@ -12,11 +12,8 @@ Tugas minggu pertama bootcamp **Arkademy**. Membuat aplikasi E-Commerce dengan k
 - React Router Navigation Flux
 - Native Base
 
-### Screenshot :
+### Demo :
 
 <div align="center">
-  <img src="assets/docs/ProductLists.png"/>
-  <img src="assets/docs/DetailProduct.png"/>
-  <img src="assets/docs/Cart.png"/>
-  <img src="assets/docs/Payment.png"/>
+  <img src="assets/docs/Demo.gif"/>
 </div>
