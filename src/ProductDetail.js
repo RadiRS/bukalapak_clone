@@ -16,6 +16,9 @@ import {
 import AppBar from './components/AppBar';
 import Button from './components/Button';
 
+// Helper
+import { idrCurrency } from './helper/helper';
+
 // Data Services
 import { getProduct } from './services/fakeProductServices';
 import { saveProduct, getProducts as Cart } from './services/fakeCartServices';
@@ -68,7 +71,9 @@ export default class ProductDetail extends Component {
             style={{ width: null, flex: 0.8 }}
           />
           <Text style={{ fontSize: 30 }}>{name}</Text>
-          <Text style={{ fontSize: 25, color: '#E40044' }}>Rp{price}</Text>
+          <Text style={{ fontSize: 25, color: '#E40044' }}>
+            {idrCurrency(price)}
+          </Text>
           <Card
             noShadow
             style={{

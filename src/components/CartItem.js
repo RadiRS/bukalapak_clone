@@ -1,6 +1,11 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Card, CardItem, Text, Thumbnail, H3 } from 'native-base';
+
+// Helper
+import { idrCurrency } from '../helper/helper';
+
+// Components
 import ButtonComponent from './Button';
 
 const CartItem = props => {
@@ -31,7 +36,7 @@ const CartItem = props => {
         </CardItem>
         <CardItem>
           <Text>
-            <H3 style={{ color: '#E40044' }}> Rp{price}</H3>
+            <H3 style={{ color: '#E40044' }}>{idrCurrency(price)}</H3>
           </Text>
         </CardItem>
         <ButtonComponent

@@ -14,6 +14,9 @@ import {
   Thumbnail
 } from 'native-base';
 
+// Helper
+import { idrCurrency } from './helper/helper';
+
 // Components
 import AppBar from './components/AppBar';
 import Button from './components/Button';

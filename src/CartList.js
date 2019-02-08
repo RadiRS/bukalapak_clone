@@ -14,6 +14,9 @@ import {
   Col
 } from 'native-base';
 
+// Helper
+import { idrCurrency } from './helper/helper';
+
 // Components
 import AppBar from './components/AppBar';
 import Button from './components/Button';
@@ -34,11 +37,13 @@ export default class CartList extends Component {
   componentDidMount() {
     const products = [...getProducts()];
     this.setState({ products });
+    this.updateTotalPrice(products);
   }
 
   handlePressRemoveItemCart = _id => {
     const products = this.state.products.filter(m => m._id !== _id);
     this.setState({ products });
+    this.updateTotalPrice(products);
 
     deleteProduct(_id);
   };
@@ -55,6 +60,7 @@ export default class CartList extends Component {
     products[index].subPrice = products[index].price * products[index].count;
 
     this.setState({ products });
+    this.updateTotalPrice(products);
 
     updateProduct(product);
   };
@@ -68,23 +74,21 @@ export default class CartList extends Component {
     products[index].subPrice = products[index].price * products[index].count;
 
     this.setState({ products });
+    this.updateTotalPrice(products);
 
     updateProduct(product);
   };
 
-  render() {
-    const { products } = this.state;
-
-    let total = products.reduce(function(prev, cur) {
-      return prev + cur.subPrice;
+  updateTotalPrice = products => {
+    let totalPrice = products.reduce(function(prev, cur) {
+      return Number(prev) + Number(cur.subPrice);
     }, 0);
 
-    // let subTotal = parseInt(total);
+    this.setState({ totalPrice });
+  };
 
-    // let a = Number(total);
-    // a.to
-
-    // this.setState({ totalPrice: total });
+  render() {
+    const { products, totalPrice } = this.state;
 
     return (
       <Container>
@@ -97,98 +101,6 @@ export default class CartList extends Component {
             <Text>Belum ada barang di keranjang belanja kamu</Text>
           </Content>
         ) : (
-          // <Card style={{ flex: 1 }}>
-          //   <CardItem style={{ flex: 1, alignItems: 'flex-start' }}>
-          //     <Content>
-          //       <Content
-          //         contentContainerStyle={{
-          //           justifyContent: 'space-between',
-          //           flexDirection: 'row'
-          //         }}
-          //       >
-          //         <Text>Barang</Text>
-          //         <Text>{products.length}</Text>
-          //         <Text>Sub Total</Text>
-          //       </Content>
-          //       {products.map((product, index) => (
-          //         <Card key={index} noShadow>
-          //           <CardItem>
-          //             <Thumbnail
-          //               style={{ flex: 0.5 }}
-          //               square
-          //               source={{ uri: product.imgUrl }}
-          //             />
-          //             <Content
-          //               contentContainerStyle={{ flex: 1, marginLeft: 10 }}
-          //             >
-          //               <Text style={{ fontSize: 20 }}>{product.name}</Text>
-          //               <Content
-          //                 contentContainerStyle={{
-          //                   flexDirection: 'row'
-          //                 }}
-          //               >
-          //                 <Button
-          //                   iconName="add"
-          //                   onPress={() =>
-          //                     this.handleIncrementQuantity(product)
-          //                   }
-          //                 />
-          //                 <Input
-          //                   value={product.count.toString()}
-          //                   style={{
-          //                     width: 5,
-          //                     textAlign: 'center'
-          //                   }}
-          //                 />
-          //                 <Button
-          //                   iconName="remove"
-          //                   onPress={() =>
-          //                     this.handleDecrementQuantity(product)
-          //                   }
-          //                 />
-          //               </Content>
-          //               <Text style={{ fontSize: 20 }}>
-          //                 Rp. {product.price}
-          //               </Text>
-          //             </Content>
-          //             <Text
-          //               style={{
-          //                 flex: 0.5,
-          //                 fontSize: 20,
-          //                 alignSelf: 'flex-end'
-          //               }}
-          //             >
-          //               Rp. {product.subPrice}
-          //             </Text>
-          //             <Button
-          //               onPress={() =>
-          //                 this.handlePressRemoveItemCart(product._id)
-          //               }
-          //               iconName="trash"
-          //             />
-          //           </CardItem>
-          //         </Card>
-          //       ))}
-          //       <Content
-          //         contentContainerStyle={{
-          //           justifyContent: 'space-between',
-          //           flexDirection: 'row',
-          //           marginTop: 20
-          //         }}
-          //       >
-          //         <Text>Total Harga</Text>
-          //         <Text>Rp. {total}</Text>
-          //       </Content>
-          //     </Content>
-          //   </CardItem>
-          //   <CardItem style={{ flexDirection: 'column' }}>
-          //     <Button
-          //       onPress={this.handlePressPay}
-          //       block={true}
-          //       buttonName="Pembayaran"
-          //     />
-          //   </CardItem>
-          // </Card>
           <>
             <Content contentContainerStyle={{ backgroundColor: '#F5F5F5' }}>
               {products.map((product, index) => (
@@ -217,7 +129,9 @@ export default class CartList extends Component {
                         }}
                       >
                         <Text style={{ fontSize: 20 }}>{product.name}</Text>
-                        <Text style={{ fontSize: 20 }}>Rp{product.price}</Text>
+                        <Text style={{ fontSize: 20 }}>
+                          {idrCurrency(product.price)}
+                        </Text>
                       </Card>
                       <Card
                         transparent
@@ -289,7 +203,9 @@ export default class CartList extends Component {
                   >
                     <Content>
                       <Text style={{ color: '#9A9A9A' }}>SUB TOTAL</Text>
-                      <Text style={{ fontSize: 25 }}>{product.subPrice}</Text>
+                      <Text style={{ fontSize: 25 }}>
+                        {idrCurrency(product.subPrice)}
+                      </Text>
                     </Content>
                   </CardItem>
                 </Card>
@@ -299,7 +215,9 @@ export default class CartList extends Component {
               <Row style={{ alignItems: 'center' }}>
                 <Col style={{ padding: 10 }}>
                   <Text style={{ color: '#9A9A9A' }}>TOTAL BELANJA</Text>
-                  <Text style={{ fontSize: 30 }}>Rp{total}</Text>
+                  <Text style={{ fontSize: 20 }}>
+                    {idrCurrency(totalPrice)}
+                  </Text>
                 </Col>
                 <Col style={{ padding: 10 }}>
                   <Button
