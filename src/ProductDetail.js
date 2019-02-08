@@ -7,7 +7,6 @@ import {
   Thumbnail,
   Card,
   Footer,
-  FooterTab,
   Row,
   Col
 } from 'native-base';
@@ -40,6 +39,12 @@ export default class ProductDetail extends Component {
 
     this.setState({ data, cart });
   }
+
+  handlePressAdd = product => {
+    // saveProduct(product);
+    // const cart = Cart().length;
+    // this.setState({ cart });
+  };
 
   handlePressBuy = () => {
     const product = this.state.data;
@@ -108,7 +113,7 @@ export default class ProductDetail extends Component {
           >
             <Col style={{ marginRight: 3 }}>
               <Button
-                onPress={this.handlePressBuy}
+                onPress={this.handlePressAdd}
                 buttonColor="#f5f5f5"
                 textColor="#E40044"
                 block={true}

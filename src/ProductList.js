@@ -39,7 +39,11 @@ export default class ProductList extends Component {
 
     return (
       <Container>
-        <AppBar showBackNav={false} title="Flash Deal" cart={cart} />
+        <AppBar
+          showBackNav={false}
+          title="Flash Deal"
+          cart={this.props.totalCart ? this.props.totalCart : cart}
+        />
         <Content
           contentContainerStyle={{
             display: 'flex',

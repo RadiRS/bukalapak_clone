@@ -19,7 +19,9 @@ const AppBar = props => {
       <Left style={{ flex: 1 }}>
         {showBackNav ? (
           <Button
-            onPress={() => Actions.popTo('productList')}
+            onPress={() =>
+              Actions.productList({ totalCart: getProducts().length })
+            }
             transparent
             transparent={true}
             iconName="arrow-back"
