@@ -1,4 +1,13 @@
 const products = [];
+let totalPrice = 0;
+
+export function updateTotalPrice(value) {
+  return (totalPrice = value);
+}
+
+export function getTotalPrice() {
+  return totalPrice;
+}
 
 export function getProducts() {
   return products;

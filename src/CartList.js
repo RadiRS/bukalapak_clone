@@ -25,7 +25,8 @@ import Button from './components/Button';
 import {
   getProducts,
   deleteProduct,
-  updateProduct
+  updateProduct,
+  updateTotalPrice
 } from './services/fakeCartServices';
 
 export default class CartList extends Component {
@@ -85,6 +86,7 @@ export default class CartList extends Component {
     }, 0);
 
     this.setState({ totalPrice });
+    updateTotalPrice(totalPrice);
   };
 
   render() {
