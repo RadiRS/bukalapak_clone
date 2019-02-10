@@ -9,18 +9,18 @@ import { idrCurrency } from '../helper/helper';
 import ButtonComponent from './Button';
 
 const CartItem = props => {
-  const { _id, imgUrl, name, price, shop } = props.products;
+  const { id, image, name, price, shop } = props.products;
 
   return (
     <TouchableOpacity
-      onPress={() => props.onPress(_id)}
+      onPress={() => props.onPress(id)}
       style={{ flexBasis: '50%' }}
     >
       <Card noShadow>
         <CardItem cardBody>
           <Thumbnail
             square
-            source={{ uri: imgUrl }}
+            source={{ uri: image }}
             style={{ height: 200, width: null, flex: 1 }}
           />
         </CardItem>

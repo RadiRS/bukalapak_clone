@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
 
 import { Container, Content } from 'native-base';
 
@@ -17,10 +18,14 @@ export default class ProductList extends Component {
     cart: 0
   };
 
-  componentDidMount() {
-    const products = [...getProducts()];
-    const cart = Cart().length;
-    this.setState({ products, cart });
+  async componentDidMount() {
+    const products = await axios.get(
+      'http://192.168.1.121:3333/api/v1/products/'
+    );
+
+    const { data } = products.data;
+
+    this.setState({ products: data });
   }
 
   handlePressBuyItem = product => {
