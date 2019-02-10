@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
+
 import {
   Container,
   Content,
@@ -26,18 +28,21 @@ export default class ProductDetail extends Component {
   state = {
     data: {
       name: '',
-      imgUrl: 'image',
+      image: 'image',
       price: '',
       description: ''
     },
     cart: 0
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { productId, cart } = this.props;
-    const data = getProduct(productId);
+    const product = await axios.get(
+      `http://192.168.1.121:3333/api/v1/products/${productId}`
+    );
+    const { data } = product.data;
 
-    this.setState({ data, cart });
+    this.setState({ data });
   }
 
   handlePressAdd = product => {
@@ -58,7 +63,7 @@ export default class ProductDetail extends Component {
   };
 
   render() {
-    const { name, imgUrl, price, description } = this.state.data;
+    const { name, image, price, description } = this.state.data;
 
     return (
       <Container>
@@ -72,7 +77,7 @@ export default class ProductDetail extends Component {
         >
           <Thumbnail
             square
-            source={{ uri: imgUrl }}
+            source={{ uri: image }}
             style={{ width: null, flex: 0.8 }}
           />
           <Text style={{ fontSize: 30 }}>{name}</Text>
