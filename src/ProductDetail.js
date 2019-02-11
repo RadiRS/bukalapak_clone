@@ -38,17 +38,19 @@ export default class ProductDetail extends Component {
   async componentDidMount() {
     const { productId, cart } = this.props;
     const product = await axios.get(
-      `http://192.168.1.121:3333/api/v1/products/${productId}`
+      // `http://192.168.1.121:3333/api/v1/products/${productId}`
+      `http://192.168.0.9:3333/api/v1/products/${productId}`
     );
     const { data } = product.data;
 
-    this.setState({ data });
+    this.setState({ data, cart });
   }
 
   handlePressAdd = product => {
-    saveProduct(product);
-    const cart = Cart().length;
-    this.setState({ cart });
+    // await axios.post(`http://192.168.1.121:3333/api/v1/products/${product}`);
+    // saveProduct(product);
+    // const cart = Cart().length;
+    // this.setState({ cart });
   };
 
   handlePressBuy = () => {

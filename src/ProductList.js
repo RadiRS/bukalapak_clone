@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 
-import { Container, Content } from 'native-base';
+import { Container, Content, Spinner } from 'native-base';
 
 // Components
 import AppBar from './components/AppBar';
@@ -15,32 +15,47 @@ import { getProducts as Cart, saveProduct } from './services/fakeCartServices';
 export default class ProductList extends Component {
   state = {
     products: [],
-    cart: 0
+    cart: 0,
+    spinner: true
   };
 
   async componentDidMount() {
     const products = await axios.get(
-      'http://192.168.1.121:3333/api/v1/products/'
+      'http://192.168.0.9:3333/api/v1/products/'
     );
+    const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
 
-    const { data } = products.data;
-
-    this.setState({ products: data });
+    this.setState({
+      products: products.data,
+      cart: orders.data.length,
+      spinner: false
+    });
   }
 
-  handlePressBuyItem = product => {
-    saveProduct(product);
-    const cart = Cart().length;
+  handlePressBuyItem = async product => {
+    const data = {
+      product_id: product.id,
+      qty: 1,
+      price: product.price
+    };
+
+    await axios
+      .post('http://192.168.0.9:3333/api/v1/orders/', data)
+      .then(res => alert(JSON.stringify(res.data.status)));
+
+    const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+
+    const cart = orders.data.length;
     this.setState({ cart });
   };
 
   handlePressProduct = productId => {
-    const cart = Cart().length;
+    const cart = this.state.cart;
     Actions.productDetail({ productId, cart });
   };
 
   render() {
-    const { products, cart } = this.state;
+    const { products, cart, spinner } = this.state;
 
     return (
       <Container>
@@ -57,14 +72,18 @@ export default class ProductList extends Component {
             justifyContent: 'space-evenly'
           }}
         >
-          {products.map((item, index) => (
-            <CartItem
-              onPressBuy={this.handlePressBuyItem}
-              key={index}
-              products={item}
-              onPress={this.handlePressProduct}
-            />
-          ))}
+          {spinner ? (
+            <Spinner color="#E40044" />
+          ) : (
+            products.map((item, index) => (
+              <CartItem
+                onPressBuy={this.handlePressBuyItem}
+                key={index}
+                products={item}
+                onPress={this.handlePressProduct}
+              />
+            ))
+          )}
         </Content>
       </Container>
     );
