@@ -20,7 +20,8 @@ const AppBar = props => {
         {showBackNav ? (
           <Button
             onPress={() =>
-              Actions.productList({ totalCart: getProducts().length })
+              // Actions.productList({ totalCart: getProducts().length })
+              Actions.popTo('productList')
             }
             transparent
             transparent={true}

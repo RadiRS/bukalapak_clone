@@ -9,13 +9,13 @@ import AppBar from './components/AppBar';
 import CartItem from './components/CartItem';
 
 // Data Services
-import { getProducts } from './services/fakeProductServices';
-import { getProducts as Cart, saveProduct } from './services/fakeCartServices';
+// import { getProducts } from './services/fakeProductServices';
+// import { getProducts as Cart, saveProduct } from './services/fakeCartServices';
 
 export default class ProductList extends Component {
   state = {
     products: [],
-    cart: 0,
+    cart: [],
     spinner: true
   };
 
@@ -23,29 +23,32 @@ export default class ProductList extends Component {
     const products = await axios.get(
       'http://192.168.0.9:3333/api/v1/products/'
     );
-    const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    // const cart = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    const cart = [...this.state.cart];
 
     this.setState({
       products: products.data,
-      cart: orders.data.length,
+      cart,
       spinner: false
     });
   }
 
   handlePressBuyItem = async product => {
-    const data = {
-      product_id: product.id,
-      qty: 1,
-      price: product.price
-    };
+    // const data = {
+    //   product_id: product.id,
+    //   qty: 1,
+    //   price: product.price
+    // };
 
-    await axios
-      .post('http://192.168.0.9:3333/api/v1/orders/', data)
-      .then(res => alert(JSON.stringify(res.data.status)));
+    // await axios
+    //   .post('http://192.168.0.9:3333/api/v1/orders/', data)
+    //   .then(res => alert(JSON.stringify(res.data.status)));
 
-    const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
 
-    const cart = orders.data.length;
+    const cart = [...this.state.cart, product];
+
+    // const cart = orders.data.length;
     this.setState({ cart });
   };
 
@@ -62,7 +65,7 @@ export default class ProductList extends Component {
         <AppBar
           showBackNav={false}
           title="Flash Deal"
-          cart={this.props.totalCart ? this.props.totalCart : cart}
+          cart={this.props.totalCart ? this.props.totalCart : cart.length}
         />
         <Content
           contentContainerStyle={{

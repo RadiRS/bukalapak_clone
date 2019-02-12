@@ -34,7 +34,7 @@ export default class ProductDetail extends Component {
       description: ''
     },
     spinner: true,
-    cart: 0
+    cart: []
   };
 
   async componentDidMount() {
@@ -80,7 +80,7 @@ export default class ProductDetail extends Component {
 
     return (
       <Container>
-        <AppBar showBackNav cart={this.state.cart} />
+        <AppBar showBackNav cart={this.state.cart.length} />
         {this.state.spinner ? (
           <Spinner color="#E40044" />
         ) : (
