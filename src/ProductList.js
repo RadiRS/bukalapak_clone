@@ -105,13 +105,6 @@ export default class ProductList extends Component {
   }
 
   handlePressBuyItem = async product => {
-    // let productInCart = this.state.cart.find(m => m.product_id === product.id);
-
-    // if (productInCart) {
-    //   alert('Sudah ada data');
-    //   return;
-    // }
-
     const data = {
       product_id: product.id,
       qty: 1,
@@ -129,7 +122,7 @@ export default class ProductList extends Component {
     // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
     const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
 
-    const cart = [...this.state.cart, orders];
+    const cart = [...orders.data];
 
     this.props.navigation.setParams({ cartLength: cart.length });
     this.setState({ cart });

@@ -88,7 +88,7 @@ export default class ProductDetail extends Component {
 
     const product = await axios.get(
       // `http://192.168.0.9:3333/api/v1/products/${productId}`
-      `http://192.168.1.121:3333/api/v1/products/${productId}`
+      `http://192.168.1.121:3333/api/v1/product/${productId}`
     );
     const { data } = product.data;
 

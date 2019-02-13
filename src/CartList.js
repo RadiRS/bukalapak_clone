@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
+import { HeaderBackButton } from 'react-navigation';
 import {
   Container,
   Content,
@@ -40,12 +41,21 @@ export default class CartList extends Component {
     spinner: true
   };
 
-  static navigationOptions = () => {
+  static navigationOptions = ({ navigation }) => {
+    const cartLength = navigation.getParam('cartLength');
     return {
       title: 'Keranjang Belanja',
       headerStyle: {
         backgroundColor: '#E40044'
       },
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="white"
+          onPress={() => {
+            navigation.navigate('ProductList', { cartLength });
+          }}
+        />
+      ),
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold'
@@ -54,55 +64,77 @@ export default class CartList extends Component {
   };
 
   async componentDidMount() {
-    // const products = [...getProducts()];
-    // this.setState({ products });
-    // this.updateTotalPrice(products);
-
     const products = await axios.get(
+      // 'http://192.168.0.9:3333/api/v1/orders/'
       'http://192.168.1.121:3333/api/v1/orders/'
     );
 
     this.updateTotalPrice(products.data);
     this.setState({ products: products.data, spinner: false });
+    this.props.navigation.setParams({ cartLength: this.state.products.length });
   }
 
-  handlePressRemoveItemCart = id => {
-    const products = this.state.products.filter(m => m.id !== id);
-    this.setState({ products });
-    this.updateTotalPrice(products);
+  handlePressRemoveItemCart = async id => {
+    await axios.delete(`http://192.168.1.121:3333/api/v1/order/${id}`);
 
-    deleteProduct(id);
+    this.setState({ spinner: true });
+
+    const products = await axios.get(
+      `http://192.168.1.121:3333/api/v1/orders/`
+    );
+
+    this.setState({ products: products.data, spinner: false });
+    this.updateTotalPrice(products.data);
+    this.props.navigation.setParams({ cartLength: this.state.products.length });
   };
 
   handlePressPay = () => {
-    Actions.payment();
+    this.props.navigation.navigate('Payment');
   };
 
-  handleIncrementQuantity = product => {
+  handleIncrementQuantity = async product => {
     const products = [...this.state.products];
     const index = products.indexOf(product);
 
-    products[index].count++;
-    products[index].subPrice = products[index].price * products[index].count;
+    products[index].qty++;
+    products[index].price =
+      products[index].products.price * products[index].qty;
 
     this.setState({ products });
     this.updateTotalPrice(products);
 
-    updateProduct(product);
+    data = {
+      qty: this.state.products[index].qty,
+      price: this.state.products[index].price
+    };
+
+    await axios.patch(
+      `http://192.168.1.121:3333/api/v1/order/${product.id}`,
+      data
+    );
   };
 
-  handleDecrementQuantity = product => {
+  handleDecrementQuantity = async product => {
     const products = [...this.state.products];
     const index = products.indexOf(product);
 
-    products[index].count--;
-    if (products[index].count <= 1) products[index].count = 1;
-    products[index].subPrice = products[index].price * products[index].count;
+    products[index].qty--;
+    if (products[index].qty <= 1) products[index].qty = 1;
+    products[index].price =
+      products[index].products.price * products[index].qty;
 
     this.setState({ products });
     this.updateTotalPrice(products);
 
-    updateProduct(product);
+    data = {
+      qty: this.state.products[index].qty,
+      price: this.state.products[index].price
+    };
+
+    await axios.patch(
+      `http://192.168.1.121:3333/api/v1/order/${product.id}`,
+      data
+    );
   };
 
   updateTotalPrice = products => {
