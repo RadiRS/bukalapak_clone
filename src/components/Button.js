@@ -19,6 +19,7 @@ const ButtonComponent = props => {
   return onShow ? (
     <Button
       style={{
+        flex: 1,
         backgroundColor: buttonColor,
         margin: margin,
         marginRight: mg
@@ -28,7 +29,7 @@ const ButtonComponent = props => {
       transparent={transparent}
     >
       {iconName ? (
-        <Icon name={iconName} />
+        <Icon style={{ color: textColor }} name={iconName} />
       ) : (
         <Text style={{ color: textColor, fontSize: 20 }} uppercase={false}>
           {buttonName}

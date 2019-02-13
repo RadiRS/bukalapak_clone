@@ -1,22 +1,17 @@
-import React from 'react';
-import { Scene, Router, Stack } from 'react-native-router-flux';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 import ProductList from './src/ProductList';
 import ProductDetail from './src/ProductDetail';
 import CartList from './src/CartList';
 import Payment from './src/Payment';
 
-const RouterComponent = () => {
-  return (
-    <Router>
-      <Stack key="root">
-        <Scene key="productList" component={ProductList} hideNavBar initial />
-        <Scene key="productDetail" component={ProductDetail} hideNavBar />
-        <Scene key="cartList" component={CartList} hideNavBar />
-        <Scene key="payment" component={Payment} hideNavBar />
-      </Stack>
-    </Router>
-  );
-};
+const RouterComponent = createStackNavigator({
+  ProductList,
+  ProductDetail,
+  CartList,
+  Payment
+});
 
-export default RouterComponent;
+const Router = createAppContainer(RouterComponent);
+
+export default Router;

@@ -11,12 +11,14 @@ import {
   Footer,
   Row,
   Col,
-  Spinner
+  Spinner,
+  View,
+  Badge
 } from 'native-base';
 
 // Components
 import AppBar from './components/AppBar';
-import Button from './components/Button';
+import ButtonComponent from './components/Button';
 
 // Helper
 import { idrCurrency } from './helper/helper';
@@ -27,41 +29,100 @@ import { saveProduct, getProducts as Cart } from './services/fakeCartServices';
 
 export default class ProductDetail extends Component {
   state = {
-    data: {
-      name: '',
-      image: 'image',
-      price: '',
-      description: ''
-    },
+    data: [],
     spinner: true,
     cart: []
   };
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerStyle: {
+        backgroundColor: '#E40044'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      },
+      headerRight: (
+        <View style={{ flexDirection: 'row' }}>
+          <ButtonComponent
+            onShow={true}
+            onPress={() => alert('Search')}
+            transparent={true}
+            iconName="search"
+          />
+          <ButtonComponent
+            onShow={true}
+            onPress={() => alert('log-in')}
+            transparent={true}
+            iconName="log-out"
+          />
+          <ButtonComponent
+            onShow={true}
+            onPress={() => Actions.cartList()}
+            transparent={true}
+            iconName="cart"
+            mg={5}
+          />
+          <Badge
+            style={{
+              flex: 1,
+              alignSelf: 'flex-start',
+              backgroundColor: '#FDD938',
+              position: 'absolute',
+              left: 130
+            }}
+            warning
+          >
+            <Text style={{ color: '#E40044' }}>
+              {navigation.getParam('cartt')}
+            </Text>
+          </Badge>
+        </View>
+      )
+    };
+  };
+
   async componentDidMount() {
-    const { productId, cart } = this.props;
+    const { productId, cart } = this.props.navigation.state.params;
+
     const product = await axios.get(
-      `http://192.168.0.9:3333/api/v1/products/${productId}`
+      // `http://192.168.0.9:3333/api/v1/products/${productId}`
+      `http://192.168.1.121:3333/api/v1/products/${productId}`
     );
     const { data } = product.data;
 
-    this.setState({ data, cart, spinner: false });
+    const cartProduct = [...this.state.cart, ...cart];
+
+    this.setState({ data, cart: cartProduct, spinner: false });
+    this.props.navigation.setParams({ cartt: this.state.cart.length });
   }
 
-  handlePressAdd = async product => {
-    const data = {
-      product_id: product.id,
-      qty: 1,
-      price: product.price
-    };
+  handlePressAdd = product => {
+    // await axios
+    //   // .post('http://192.168.0.9:3333/api/v1/orders/', data)
+    //   .post('http://192.168.1.121:3333/api/v1/orders/', data)
+    //   .then(res => alert(JSON.stringify(res.data.status)));
 
-    await axios
-      .post('http://192.168.0.9:3333/api/v1/orders/', data)
-      .then(res => alert(JSON.stringify(res.data.status)));
+    // // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    // const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
 
-    const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    // const cart = orders.data.length;
 
-    const cart = orders.data.length;
+    let productInCart = this.state.cart.find(m => m.id === product.id);
+
+    if (productInCart) {
+      alert('Sudah ada data');
+      return;
+    }
+
+    const { handlePressBuyItem } = this.props.navigation.state.params;
+    const cart = [...this.state.cart, product];
+
+    this.props.navigation.setParams({ cartt: cart.length });
     this.setState({ cart });
+
+    handlePressBuyItem(product);
   };
 
   handlePressBuy = () => {
@@ -80,7 +141,6 @@ export default class ProductDetail extends Component {
 
     return (
       <Container>
-        <AppBar showBackNav cart={this.state.cart.length} />
         {this.state.spinner ? (
           <Spinner color="#E40044" />
         ) : (
@@ -95,7 +155,7 @@ export default class ProductDetail extends Component {
               <Thumbnail
                 square
                 source={{ uri: image }}
-                style={{ width: null, flex: 0.8 }}
+                style={{ height: 300, width: null, flex: 0.8 }}
               />
               <Text style={{ fontSize: 30 }}>{name}</Text>
               <Text style={{ fontSize: 25, color: '#E40044' }}>
@@ -136,7 +196,7 @@ export default class ProductDetail extends Component {
                 }}
               >
                 <Col style={{ marginRight: 3 }}>
-                  <Button
+                  <ButtonComponent
                     onPress={() => this.handlePressAdd(this.state.data)}
                     buttonColor="#f5f5f5"
                     textColor="#E40044"
@@ -145,7 +205,7 @@ export default class ProductDetail extends Component {
                   />
                 </Col>
                 <Col style={{ marginLeft: 3 }}>
-                  <Button
+                  <ButtonComponent
                     onPress={this.handlePressBuy}
                     buttonColor="#62DE55"
                     block={true}
