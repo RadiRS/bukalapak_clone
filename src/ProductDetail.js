@@ -59,7 +59,7 @@ export default class ProductDetail extends Component {
           />
           <ButtonComponent
             onShow={true}
-            onPress={() => Actions.cartList()}
+            onPress={() => navigation.navigate('CartList')}
             transparent={true}
             iconName="cart"
             mg={5}

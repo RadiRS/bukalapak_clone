@@ -31,8 +31,9 @@ export default class Payment extends Component {
   };
 
   componentDidMount() {
-    const products = [...getProducts()];
-    this.setState({ products });
+    // const products = [...getProducts()];
+    // const { cart } = this.props.navigation.state.params;
+    // this.setState({ products: cart });
   }
 
   render() {

@@ -12,7 +12,10 @@ import ButtonComponent from './components/Button';
 
 // Data Services
 // import { getProducts } from './services/fakeProductServices';
-// import { getProducts as Cart, saveProduct } from './services/fakeCartServices';
+import {
+  getProducts as getProductsInCart,
+  saveProduct
+} from './services/fakeCartServices';
 
 export default class ProductList extends Component {
   state = {
@@ -52,7 +55,7 @@ export default class ProductList extends Component {
           />
           <ButtonComponent
             onShow={true}
-            onPress={() => Actions.cartList()}
+            onPress={() => navigation.navigate('CartList')}
             transparent={true}
             iconName="cart"
             mg={5}
@@ -68,7 +71,7 @@ export default class ProductList extends Component {
             warning
           >
             <Text style={{ color: '#E40044' }}>
-              {navigation.getParam('cart')}
+              {navigation.getParam('cartLength')}
             </Text>
           </Badge>
         </View>
@@ -77,47 +80,58 @@ export default class ProductList extends Component {
   };
 
   async componentDidMount() {
-    this.props.navigation.setParams({ cart: this.state.cart.length });
+    this.props.navigation.setParams({
+      cartLength: this.state.cart.length,
+      cart: this.state.cart
+    });
 
     const products = await axios.get(
       // 'http://192.168.0.9:3333/api/v1/products/'
       'http://192.168.1.121:3333/api/v1/products/'
     );
-    // const cart = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
-    const cart = [...this.state.cart];
+
+    const orders = await axios.get(
+      // 'http://192.168.0.9:3333/api/v1/products/'
+      'http://192.168.1.121:3333/api/v1/orders/'
+    );
 
     this.setState({
       products: products.data,
-      cart,
+      cart: orders.data,
       spinner: false
     });
+
+    this.props.navigation.setParams({ cartLength: this.state.cart.length });
   }
 
   handlePressBuyItem = async product => {
-    // const data = {
-    //   product_id: product.id,
-    //   qty: 1,
-    //   price: product.price
-    // };
+    // let productInCart = this.state.cart.find(m => m.product_id === product.id);
 
-    // await axios
-    //   .post('http://192.168.0.9:3333/api/v1/orders/', data)
-    //   .then(res => alert(JSON.stringify(res.data.status)));
+    // if (productInCart) {
+    //   alert('Sudah ada data');
+    //   return;
+    // }
+
+    const data = {
+      product_id: product.id,
+      qty: 1,
+      price: product.price
+    };
+
+    await axios
+      // .post('http://192.168.0.9:3333/api/v1/order/', data)
+      .post('http://192.168.1.121:3333/api/v1/order/', data)
+      .then(res => alert(JSON.stringify(res.data.status)))
+      .catch(res => {
+        alert(JSON.stringify(res.data.status));
+      });
 
     // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
 
-    let productInCart = this.state.cart.find(m => m.id === product.id);
+    const cart = [...this.state.cart, orders];
 
-    if (productInCart) {
-      alert('Sudah ada data');
-      return;
-    }
-
-    alert('Data berhasil ditambahkan');
-
-    const cart = [...this.state.cart, product];
-
-    this.props.navigation.setParams({ cart: cart.length });
+    this.props.navigation.setParams({ cartLength: cart.length });
     this.setState({ cart });
   };
 

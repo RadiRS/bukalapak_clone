@@ -11,7 +11,10 @@ import {
   Icon,
   Footer,
   Row,
-  Col
+  Col,
+  Badge,
+  View,
+  Spinner
 } from 'native-base';
 
 // Helper
@@ -19,7 +22,7 @@ import { idrCurrency } from './helper/helper';
 
 // Components
 import AppBar from './components/AppBar';
-import Button from './components/Button';
+import ButtonComponent from './components/Button';
 
 // Data Services
 import {
@@ -28,25 +31,47 @@ import {
   updateProduct,
   updateTotalPrice
 } from './services/fakeCartServices';
+import axios from 'axios';
 
 export default class CartList extends Component {
   state = {
     products: [],
-    totalPrice: 0
+    totalPrice: 0,
+    spinner: true
   };
 
-  componentDidMount() {
-    const products = [...getProducts()];
-    this.setState({ products });
-    this.updateTotalPrice(products);
+  static navigationOptions = () => {
+    return {
+      title: 'Keranjang Belanja',
+      headerStyle: {
+        backgroundColor: '#E40044'
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold'
+      }
+    };
+  };
+
+  async componentDidMount() {
+    // const products = [...getProducts()];
+    // this.setState({ products });
+    // this.updateTotalPrice(products);
+
+    const products = await axios.get(
+      'http://192.168.1.121:3333/api/v1/orders/'
+    );
+
+    this.updateTotalPrice(products.data);
+    this.setState({ products: products.data, spinner: false });
   }
 
-  handlePressRemoveItemCart = _id => {
-    const products = this.state.products.filter(m => m._id !== _id);
+  handlePressRemoveItemCart = id => {
+    const products = this.state.products.filter(m => m.id !== id);
     this.setState({ products });
     this.updateTotalPrice(products);
 
-    deleteProduct(_id);
+    deleteProduct(id);
   };
 
   handlePressPay = () => {
@@ -82,7 +107,7 @@ export default class CartList extends Component {
 
   updateTotalPrice = products => {
     let totalPrice = products.reduce(function(prev, cur) {
-      return Number(prev) + Number(cur.subPrice);
+      return Number(prev) + Number(cur.price);
     }, 0);
 
     this.setState({ totalPrice });
@@ -90,12 +115,13 @@ export default class CartList extends Component {
   };
 
   render() {
-    const { products, totalPrice } = this.state;
+    const { products, totalPrice, spinner } = this.state;
 
     return (
       <Container>
-        <AppBar title="Keranjang Belanja" showCartNav={false} />
-        {products.length === 0 ? (
+        {spinner ? (
+          <Spinner color="#E40044" />
+        ) : products.length === 0 ? (
           <Content
             contentContainerStyle={{ marginTop: '20%', alignItems: 'center' }}
           >
@@ -130,9 +156,11 @@ export default class CartList extends Component {
                           flex: 4
                         }}
                       >
-                        <Text style={{ fontSize: 20 }}>{product.name}</Text>
                         <Text style={{ fontSize: 20 }}>
-                          {idrCurrency(product.price)}
+                          {product.products.name}
+                        </Text>
+                        <Text style={{ fontSize: 20 }}>
+                          {idrCurrency(product.products.price)}
                         </Text>
                       </Card>
                       <Card
@@ -145,7 +173,7 @@ export default class CartList extends Component {
                         <Thumbnail
                           square
                           style={{ width: '100%', height: 70 }}
-                          source={{ uri: product.imgUrl }}
+                          source={{ uri: product.products.image }}
                         />
                       </Card>
                     </Content>
@@ -162,19 +190,19 @@ export default class CartList extends Component {
                           flexDirection: 'row'
                         }}
                       >
-                        <Button
+                        <ButtonComponent
                           iconName="add"
                           onPress={() => this.handleIncrementQuantity(product)}
                         />
                         <Input
                           keyboardType="number-pad"
-                          value={product.count.toString()}
+                          value={product.qty.toString()}
                           style={{
                             width: 5,
                             textAlign: 'center'
                           }}
                         />
-                        <Button
+                        <ButtonComponent
                           iconName="remove"
                           onPress={() => this.handleDecrementQuantity(product)}
                         />
@@ -188,7 +216,7 @@ export default class CartList extends Component {
                       >
                         <Icon
                           onPress={() =>
-                            this.handlePressRemoveItemCart(product._id)
+                            this.handlePressRemoveItemCart(product.id)
                           }
                           style={{ color: '#E40044' }}
                           name="trash"
@@ -207,7 +235,7 @@ export default class CartList extends Component {
                     <Content>
                       <Text style={{ color: '#9A9A9A' }}>SUB TOTAL</Text>
                       <Text style={{ fontSize: 25 }}>
-                        {idrCurrency(product.subPrice)}
+                        {idrCurrency(product.price)}
                       </Text>
                     </Content>
                   </CardItem>
@@ -223,7 +251,7 @@ export default class CartList extends Component {
                   </Text>
                 </Col>
                 <Col style={{ padding: 10 }}>
-                  <Button
+                  <ButtonComponent
                     onPress={() => this.handlePressPay()}
                     block={true}
                     buttonName="Bayar"
