@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 
 import {
@@ -17,15 +16,10 @@ import {
 } from 'native-base';
 
 // Components
-import AppBar from './components/AppBar';
 import ButtonComponent from './components/Button';
 
 // Helper
 import { idrCurrency } from './helper/helper';
-
-// Data Services
-import { getProduct } from './services/fakeProductServices';
-import { saveProduct, getProducts as Cart } from './services/fakeCartServices';
 
 export default class ProductDetail extends Component {
   state = {
@@ -75,7 +69,7 @@ export default class ProductDetail extends Component {
             warning
           >
             <Text style={{ color: '#E40044' }}>
-              {navigation.getParam('cartt')}
+              {navigation.getParam('cartLength')}
             </Text>
           </Badge>
         </View>
@@ -95,45 +89,25 @@ export default class ProductDetail extends Component {
     const cartProduct = [...this.state.cart, ...cart];
 
     this.setState({ data, cart: cartProduct, spinner: false });
-    this.props.navigation.setParams({ cartt: this.state.cart.length });
+    this.props.navigation.setParams({ cartLength: this.state.cart.length });
   }
 
   handlePressAdd = product => {
-    // await axios
-    //   // .post('http://192.168.0.9:3333/api/v1/orders/', data)
-    //   .post('http://192.168.1.121:3333/api/v1/orders/', data)
-    //   .then(res => alert(JSON.stringify(res.data.status)));
-
-    // // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
-    // const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
-
-    // const cart = orders.data.length;
-
-    let productInCart = this.state.cart.find(m => m.id === product.id);
-
-    if (productInCart) {
-      alert('Sudah ada data');
-      return;
-    }
-
     const { handlePressBuyItem } = this.props.navigation.state.params;
     const cart = [...this.state.cart, product];
 
-    this.props.navigation.setParams({ cartt: cart.length });
+    this.props.navigation.setParams({ cartLength: cart.length });
     this.setState({ cart });
 
     handlePressBuyItem(product);
   };
 
-  handlePressBuy = () => {
-    const product = this.state.data;
+  handlePressBuy = product => {
+    const { handlePressBuyItem } = this.props.navigation.state.params;
 
-    saveProduct(product);
+    handlePressBuyItem(product);
 
-    const cart = Cart().length;
-    this.setState({ cart });
-
-    Actions.cartList();
+    this.props.navigation.navigate('CartList');
   };
 
   render() {
@@ -206,7 +180,7 @@ export default class ProductDetail extends Component {
                 </Col>
                 <Col style={{ marginLeft: 3 }}>
                   <ButtonComponent
-                    onPress={this.handlePressBuy}
+                    onPress={() => this.handlePressBuy(this.state.data)}
                     buttonColor="#62DE55"
                     block={true}
                     buttonName="Beli Sekarang"

@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 
 import { Container, Content, Spinner, Badge, Text, View } from 'native-base';
 import { StatusBar } from 'react-native';
 
 // Components
-import AppBar from './components/AppBar';
 import CartItem from './components/CartItem';
 import ButtonComponent from './components/Button';
-
-// Data Services
-// import { getProducts } from './services/fakeProductServices';
-import {
-  getProducts as getProductsInCart,
-  saveProduct
-} from './services/fakeCartServices';
 
 export default class ProductList extends Component {
   state = {
@@ -128,8 +119,10 @@ export default class ProductList extends Component {
     this.setState({ cart });
   };
 
-  handlePressProduct = productId => {
-    const cart = this.state.cart;
+  handlePressProduct = async productId => {
+    // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
+    const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
+    const cart = [...orders.data];
 
     this.props.navigation.navigate('ProductDetail', {
       cart,

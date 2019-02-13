@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
+
 import { HeaderBackButton } from 'react-navigation';
 import {
   Container,
@@ -13,8 +14,6 @@ import {
   Footer,
   Row,
   Col,
-  Badge,
-  View,
   Spinner
 } from 'native-base';
 
@@ -22,17 +21,10 @@ import {
 import { idrCurrency } from './helper/helper';
 
 // Components
-import AppBar from './components/AppBar';
 import ButtonComponent from './components/Button';
 
 // Data Services
-import {
-  getProducts,
-  deleteProduct,
-  updateProduct,
-  updateTotalPrice
-} from './services/fakeCartServices';
-import axios from 'axios';
+import { updateTotalPrice } from './services/fakeCartServices';
 
 export default class CartList extends Component {
   state = {
