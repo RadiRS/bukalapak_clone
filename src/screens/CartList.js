@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import { HeaderBackButton } from 'react-navigation';
+import { Alert } from 'react-native';
 import {
   Container,
   Content,
@@ -17,14 +17,14 @@ import {
   Spinner
 } from 'native-base';
 
+// Utils
+import { REST_API } from '../utils/constants';
 // Helper
 import { idrCurrency } from '../helper/helper';
-
-// Components
-import ButtonComponent from '../components/Button';
-
 // Data Services
 import { updateTotalPrice } from '../services/fakeCartServices';
+// Components
+import ButtonComponent from '../components/Button';
 
 export default class CartList extends Component {
   state = {
@@ -53,24 +53,34 @@ export default class CartList extends Component {
   };
 
   async componentDidMount() {
-    const products = await axios.get(
-      // 'http://192.168.0.9:3333/api/v1/orders/'
-      'http://192.168.1.121:3333/api/v1/orders/'
-    );
+    const products = await axios.get(`${REST_API}/orders/`);
 
     this.updateTotalPrice(products.data);
     this.setState({ products: products.data, spinner: false });
     this.props.navigation.setParams({ cartLength: this.state.products.length });
   }
 
+  handleDeleteConfimation = id => {
+    Alert.alert(
+      'Hapus Barang',
+      'Apa kamu yakin ingin menghapus barang yang terpilih ?',
+      [
+        {
+          text: 'Batal',
+          style: 'cancel'
+        },
+        { text: 'Hapus', onPress: () => this.handlePressRemoveItemCart(id) }
+      ],
+      { cancelable: false }
+    );
+  };
+
   handlePressRemoveItemCart = async id => {
-    await axios.delete(`http://192.168.1.121:3333/api/v1/order/${id}`);
+    await axios.delete(`${REST_API}/order/${id}`);
 
     this.setState({ spinner: true });
 
-    const products = await axios.get(
-      `http://192.168.1.121:3333/api/v1/orders/`
-    );
+    const products = await axios.get(`${REST_API}/orders/`);
 
     this.setState({ products: products.data, spinner: false });
     this.updateTotalPrice(products.data);
@@ -97,10 +107,7 @@ export default class CartList extends Component {
       price: this.state.products[index].price
     };
 
-    await axios.patch(
-      `http://192.168.1.121:3333/api/v1/order/${product.id}`,
-      data
-    );
+    await axios.patch(`${REST_API}/order/${product.id}`, data);
   };
 
   handleDecrementQuantity = async product => {
@@ -120,10 +127,7 @@ export default class CartList extends Component {
       price: this.state.products[index].price
     };
 
-    await axios.patch(
-      `http://192.168.1.121:3333/api/v1/order/${product.id}`,
-      data
-    );
+    await axios.patch(`${REST_API}/order/${product.id}`, data);
   };
 
   updateTotalPrice = products => {
@@ -237,7 +241,7 @@ export default class CartList extends Component {
                       >
                         <Icon
                           onPress={() =>
-                            this.handlePressRemoveItemCart(product.id)
+                            this.handleDeleteConfimation(product.id)
                           }
                           style={{ color: '#E40044' }}
                           name="trash"

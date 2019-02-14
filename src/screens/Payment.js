@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import {
   Container,
   Content,
@@ -18,9 +17,10 @@ import {
   View
 } from 'native-base';
 
+// Utils
+import { REST_API } from '../utils/constants';
 // Helper
 import { idrCurrency } from '../helper/helper';
-
 // Services
 import { getTotalPrice } from '../services/fakeCartServices';
 
@@ -42,10 +42,7 @@ export default class Payment extends Component {
   };
 
   async componentDidMount() {
-    const products = await axios.get(
-      // 'http://192.168.0.9:3333/api/v1/orders/'
-      'http://192.168.1.121:3333/api/v1/orders/'
-    );
+    const products = await axios.get(`${REST_API}/orders/`);
 
     this.setState({ products: products.data, spinner: false });
   }

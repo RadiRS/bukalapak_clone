@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { HeaderBackButton } from 'react-navigation';
-
 import {
   Container,
   Content,
@@ -12,16 +11,15 @@ import {
   Row,
   Col,
   Spinner,
-  View,
-  Badge,
   CardItem
 } from 'native-base';
 
-// Components
-import ButtonComponent from '../components/Button';
-
+// Utils
+import { REST_API } from '../utils/constants';
 // Helper
 import { idrCurrency } from '../helper/helper';
+// Components
+import ButtonComponent from '../components/Button';
 
 export default class ProductDetail extends Component {
   state = {
@@ -47,10 +45,7 @@ export default class ProductDetail extends Component {
   async componentDidMount() {
     const { productId, cart } = this.props.navigation.state.params;
 
-    const product = await axios.get(
-      // `http://192.168.0.9:3333/api/v1/products/${productId}`
-      `http://192.168.1.121:3333/api/v1/product/${productId}`
-    );
+    const product = await axios.get(`${REST_API}/product/${productId}`);
     const { data } = product.data;
 
     const cartProduct = [...this.state.cart, ...cart];
@@ -87,9 +82,7 @@ export default class ProductDetail extends Component {
         ) : (
           <>
             <Content
-              // padder
               contentContainerStyle={{
-                // justifyContent: 'space-between'
                 backgroundColor: '#EFF0F4'
               }}
             >

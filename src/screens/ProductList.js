@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { StatusBar, FlatList } from 'react-native';
 import {
   Container,
   Content,
@@ -10,19 +10,18 @@ import {
   View,
   Toast
 } from 'native-base';
-import { StatusBar } from 'react-native';
 
+// Utils
+import { REST_API } from '../utils/constants';
 // Components
 import CartItem from '../components/CartItem';
 import ButtonComponent from '../components/Button';
-import { FlatList } from 'react-native-gesture-handler';
 
 export default class ProductList extends Component {
   state = {
     products: [],
     cart: [],
-    spinner: true,
-    showToast: false
+    spinner: true
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -78,28 +77,18 @@ export default class ProductList extends Component {
   };
 
   async componentDidMount() {
-    this.props.navigation.setParams({
-      cartLength: this.state.cart.length,
-      cart: this.state.cart
-    });
-
-    const products = await axios.get(
-      // 'http://192.168.0.9:3333/api/v1/products/'
-      'http://192.168.1.121:3333/api/v1/products/'
-    );
-
-    const orders = await axios.get(
-      // 'http://192.168.0.9:3333/api/v1/products/'
-      'http://192.168.1.121:3333/api/v1/orders/'
-    );
+    const products = await axios.get(`${REST_API}/products/`);
+    const orders = await axios.get(`${REST_API}/orders/`);
 
     this.setState({
       products: products.data,
       cart: orders.data,
       spinner: false
     });
-
-    this.props.navigation.setParams({ cartLength: this.state.cart.length });
+    this.props.navigation.setParams({
+      cart: this.state.cart,
+      cartLength: this.state.cart.length
+    });
   }
 
   handlePressBuyItem = async product => {
@@ -109,24 +98,16 @@ export default class ProductList extends Component {
       price: product.price
     };
 
-    await axios
-      // .post('http://192.168.0.9:3333/api/v1/order/', data)
-      .post('http://192.168.1.121:3333/api/v1/order/', data)
-      .then(res =>
-        Toast.show({
-          text: res.data.status,
-          buttonText: 'Okay',
-          duration: 3000,
-          type: 'success'
-        })
-      )
-      // .then(res => (alert(JSON.stringify(res.data.status))))
-      .catch(res => {
-        // alert(JSON.stringify(res.data.status));
-      });
+    const result = await axios.post(`${REST_API}/order/`, data);
 
-    // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
-    const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
+    Toast.show({
+      text: result.data.status,
+      buttonText: 'Okay',
+      duration: 2000,
+      type: 'success'
+    });
+
+    const orders = await axios.get(`${REST_API}/orders/`);
 
     const cart = [...orders.data];
 
@@ -135,8 +116,7 @@ export default class ProductList extends Component {
   };
 
   handlePressProduct = async productId => {
-    // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');
-    const orders = await axios.get('http://192.168.1.121:3333/api/v1/orders/');
+    const orders = await axios.get(`${REST_API}/orders/`);
     const cart = [...orders.data];
 
     this.props.navigation.navigate('ProductDetail', {
