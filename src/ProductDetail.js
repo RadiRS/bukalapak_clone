@@ -12,7 +12,8 @@ import {
   Col,
   Spinner,
   View,
-  Badge
+  Badge,
+  CardItem
 } from 'native-base';
 
 // Components
@@ -120,31 +121,60 @@ export default class ProductDetail extends Component {
         ) : (
           <>
             <Content
-              padder
+              // padder
               contentContainerStyle={{
-                flex: 1,
-                justifyContent: 'space-between'
+                // justifyContent: 'space-between'
+                backgroundColor: '#EFF0F4'
               }}
             >
-              <Thumbnail
-                square
-                source={{ uri: image }}
-                style={{ height: 300, width: null, flex: 0.8 }}
-              />
-              <Text style={{ fontSize: 30 }}>{name}</Text>
-              <Text style={{ fontSize: 25, color: '#E40044' }}>
-                {idrCurrency(price)}
-              </Text>
+              <Card
+                noShadow
+                style={{
+                  margin: 0,
+                  padding: 0,
+                  marginBottom: 10,
+                  borderColor: 'white'
+                }}
+              >
+                <Thumbnail
+                  square
+                  source={{ uri: image }}
+                  style={{
+                    height: 400,
+                    width: null,
+                    flex: 1
+                  }}
+                />
+                <CardItem>
+                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+                    {name}
+                  </Text>
+                </CardItem>
+                <CardItem>
+                  <Text
+                    style={{
+                      fontSize: 23,
+                      color: '#E40044',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {idrCurrency(price)}
+                  </Text>
+                </CardItem>
+              </Card>
+
               <Card
                 noShadow
                 style={{
                   padding: 10,
                   marginBottom: 10,
-                  backgroundColor: '#F5F5F5'
+                  borderColor: 'white'
                 }}
               >
-                <Text style={{ fontSize: 25, color: '#4E4E4E' }}>
-                  Deskripsi
+                <Text
+                  style={{ fontSize: 25, color: '#4E4E4E', fontWeight: 'bold' }}
+                >
+                  Informasi Barang
                 </Text>
                 <Text style={{ marginTop: 5, color: '#9A9A9A' }}>
                   {description}
