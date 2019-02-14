@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { Container, Content, Spinner, Badge, Text, View } from 'native-base';
+import {
+  Container,
+  Content,
+  Spinner,
+  Badge,
+  Text,
+  View,
+  Toast
+} from 'native-base';
 import { StatusBar } from 'react-native';
 
 // Components
@@ -12,7 +20,8 @@ export default class ProductList extends Component {
   state = {
     products: [],
     cart: [],
-    spinner: true
+    spinner: true,
+    showToast: false
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -105,9 +114,17 @@ export default class ProductList extends Component {
     await axios
       // .post('http://192.168.0.9:3333/api/v1/order/', data)
       .post('http://192.168.1.121:3333/api/v1/order/', data)
-      .then(res => alert(JSON.stringify(res.data.status)))
+      .then(res =>
+        Toast.show({
+          text: res.data.status,
+          buttonText: 'Okay',
+          duration: 3000,
+          type: 'success'
+        })
+      )
+      // .then(res => (alert(JSON.stringify(res.data.status))))
       .catch(res => {
-        alert(JSON.stringify(res.data.status));
+        // alert(JSON.stringify(res.data.status));
       });
 
     // const orders = await axios.get('http://192.168.0.9:3333/api/v1/orders/');

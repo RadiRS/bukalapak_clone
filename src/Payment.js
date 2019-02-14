@@ -14,7 +14,8 @@ import {
   Picker,
   Icon,
   Thumbnail,
-  Spinner
+  Spinner,
+  View
 } from 'native-base';
 
 // Helper
@@ -64,7 +65,7 @@ export default class Payment extends Component {
             }}
           >
             <Text>Data Pembeli</Text>
-            <Card style={{ padding: 5, paddingBottom: 20 }}>
+            <Card noShadow style={{ padding: 5, paddingBottom: 20 }}>
               <Form>
                 <Item stackedLabel>
                   <Label>Nama Pembeli</Label>
@@ -81,7 +82,7 @@ export default class Payment extends Component {
               </Form>
             </Card>
             <Text style={{ marginTop: 20 }}>Alamat Pengiriman</Text>
-            <Card style={{ padding: 5, paddingBottom: 20 }}>
+            <Card noShadow style={{ padding: 5, paddingBottom: 20 }}>
               <Form>
                 <Item stackedLabel>
                   <Label>Provinsi</Label>
@@ -98,60 +99,64 @@ export default class Payment extends Component {
               </Form>
             </Card>
             <Text style={{ marginTop: 20 }}>Daftar Belanja dan Pengiriman</Text>
-            <Card style={{ padding: 5, paddingBottom: 20 }}>
-              <CardItem style={{ flex: 1, alignItems: 'flex-start' }}>
-                <Content>
+            <Card noShadow style={{ paddingBottom: 20 }}>
+              <CardItem
+                style={{ flex: 1, alignItems: 'flex-start', padding: 0 }}
+              >
+                <Content contentContainerStyle={{ padding: 0 }}>
                   <Content
                     contentContainerStyle={{
                       justifyContent: 'space-between',
-                      flexDirection: 'row'
+                      flexDirection: 'row',
+                      padding: 0
                     }}
                   >
                     <Text>Barang</Text>
                     <Text>Sub Total</Text>
                   </Content>
                   {this.state.products.map((product, index) => (
-                    <Card key={index} noShadow>
-                      <CardItem>
-                        <Thumbnail
-                          style={{ flex: 0.5 }}
-                          square
-                          source={{ uri: product.products.image }}
-                        />
-                        <Content
-                          contentContainerStyle={{ flex: 1, marginLeft: 10 }}
-                        >
-                          <Text style={{ fontSize: 20 }}>
-                            {product.products.name}
-                          </Text>
-                          <Content
-                            contentContainerStyle={{
-                              flexDirection: 'row'
-                            }}
-                          >
-                            <Text
-                              style={{
-                                fontSize: 20
-                              }}
-                            >
-                              {product.qty}
-                            </Text>
-                          </Content>
-                          <Text style={{ fontSize: 20 }}>
-                            {idrCurrency(product.products.price)}
-                          </Text>
-                        </Content>
-                        <Text
-                          style={{
-                            flex: 0.5,
-                            fontSize: 20,
-                            alignSelf: 'flex-end'
-                          }}
-                        >
-                          {idrCurrency(product.price)}
+                    <View
+                      key={index}
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginBottom: 10
+                      }}
+                    >
+                      <Thumbnail
+                        large
+                        style={{
+                          backgroundColor: 'green',
+                          flex: 0.3,
+                          borderRadius: 10
+                        }}
+                        square
+                        source={{ uri: product.products.image }}
+                      />
+                      <View
+                        style={{
+                          flex: 1,
+                          paddingHorizontal: 10,
+                          flexDirection: 'column'
+                        }}
+                      >
+                        <Text style={{ fontSize: 20 }}>
+                          {product.products.name}
                         </Text>
-                      </CardItem>
-                    </Card>
+                        <Text style={{ fontSize: 20 }}>{product.qty}</Text>
+                        <Text style={{ fontSize: 20 }}>
+                          {idrCurrency(product.products.price)}
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          alignSelf: 'flex-end'
+                        }}
+                      >
+                        {idrCurrency(product.products.price)}
+                      </Text>
+                    </View>
                   ))}
 
                   <Content>

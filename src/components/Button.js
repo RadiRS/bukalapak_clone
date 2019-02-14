@@ -22,7 +22,8 @@ const ButtonComponent = props => {
         flex: 1,
         backgroundColor: buttonColor,
         margin: margin,
-        marginRight: mg
+        marginRight: mg,
+        justifyContent: 'center'
       }}
       block={block}
       onPress={onPress}
