@@ -142,7 +142,7 @@ export default class ProductList extends Component {
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
-            justifyContent: 'space-evenly'
+            justifyContent: 'center'
           }}
         >
           {spinner ? (

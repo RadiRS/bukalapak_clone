@@ -14,9 +14,13 @@ const CartItem = props => {
   return (
     <TouchableOpacity
       onPress={() => props.onPress(id)}
-      style={{ flexBasis: '50%' }}
+      style={{
+        flexBasis: '50%',
+        marginBottom: 10,
+        alignSelf: 'stretch'
+      }}
     >
-      <Card noShadow>
+      <Card noShadow style={{ flex: 1 }}>
         <CardItem cardBody>
           <Thumbnail
             square
@@ -24,28 +28,34 @@ const CartItem = props => {
             style={{ height: 200, width: null, flex: 1 }}
           />
         </CardItem>
-        <CardItem>
+        <CardItem style={{ flex: 1 }}>
           <Text>
             <H3>{name}</H3>
           </Text>
         </CardItem>
-        <CardItem>
+        <CardItem style={{ flex: 1 }}>
           <Text>
             <H3 style={{ fontSize: 16, color: '#B8BCB9' }}>{shop}</H3>
           </Text>
         </CardItem>
-        <CardItem>
+        <CardItem style={{ flex: 1 }}>
           <Text>
             <H3 style={{ color: '#E40044' }}>{idrCurrency(price)}</H3>
           </Text>
         </CardItem>
-        <ButtonComponent
-          onPress={() => props.onPressBuy(props.products)}
-          margin={7}
-          block={true}
-          buttonName="Beli"
-          buttonColor="#62DE55"
-        />
+        <CardItem
+          footer
+          style={{
+            alignItems: 'flex-end'
+          }}
+        >
+          <ButtonComponent
+            onPress={() => props.onPressBuy(props.products)}
+            block={true}
+            buttonName="Beli"
+            buttonColor="#62DE55"
+          />
+        </CardItem>
       </Card>
     </TouchableOpacity>
   );
