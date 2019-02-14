@@ -120,7 +120,9 @@ export default class Payment extends Component {
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        marginBottom: 10
+                        marginBottom: 10,
+                        borderBottomWidth: 1,
+                        borderBottomColor: 'gray'
                       }}
                     >
                       <Thumbnail
@@ -143,7 +145,9 @@ export default class Payment extends Component {
                         <Text style={{ fontSize: 17 }}>
                           {product.products.name}
                         </Text>
-                        <Text style={{ fontSize: 17 }}>Qty: {product.qty}</Text>
+                        <Text style={{ fontSize: 17 }}>
+                          Qty : {product.qty}
+                        </Text>
                         <Text style={{ fontSize: 17 }}>
                           {idrCurrency(product.products.price)}
                         </Text>

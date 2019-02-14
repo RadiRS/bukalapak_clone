@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { HeaderBackButton } from 'react-navigation';
 
 import {
   Container,
@@ -31,49 +32,14 @@ export default class ProductDetail extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      headerStyle: {
-        backgroundColor: '#E40044'
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      },
-      headerRight: (
-        <View style={{ flexDirection: 'row' }}>
-          <ButtonComponent
-            onShow={true}
-            onPress={() => alert('Search')}
-            transparent={true}
-            iconName="search"
-          />
-          <ButtonComponent
-            onShow={true}
-            onPress={() => alert('log-in')}
-            transparent={true}
-            iconName="log-out"
-          />
-          <ButtonComponent
-            onShow={true}
-            onPress={() => navigation.navigate('CartList')}
-            transparent={true}
-            iconName="cart"
-            mg={5}
-          />
-          <Badge
-            style={{
-              flex: 1,
-              alignSelf: 'flex-start',
-              backgroundColor: '#FDD938',
-              position: 'absolute',
-              left: 130
-            }}
-            warning
-          >
-            <Text style={{ color: '#E40044' }}>
-              {navigation.getParam('cartLength')}
-            </Text>
-          </Badge>
-        </View>
+      headerTransparent: true,
+      headerLeft: (
+        <HeaderBackButton
+          tintColor="#E40044"
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
       )
     };
   };
