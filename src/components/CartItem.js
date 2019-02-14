@@ -16,7 +16,6 @@ const CartItem = props => {
       onPress={() => props.onPress(id)}
       style={{
         flexBasis: '50%',
-        marginBottom: 10,
         alignSelf: 'stretch'
       }}
     >
@@ -29,7 +28,7 @@ const CartItem = props => {
           />
         </CardItem>
         <CardItem style={{ flex: 1 }}>
-          <Text>
+          <Text numberOfLines={2}>
             <H3>{name}</H3>
           </Text>
         </CardItem>

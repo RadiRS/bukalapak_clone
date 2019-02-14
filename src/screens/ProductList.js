@@ -26,14 +26,11 @@ export default class ProductList extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Home',
+      title: 'Flash Sale',
       headerStyle: {
         backgroundColor: '#E40044'
       },
       headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      },
       headerLeft: (
         <View style={{ alignItems: 'center' }}>
           <ButtonComponent transparent={true} iconName="menu" />

@@ -48,10 +48,7 @@ export default class CartList extends Component {
           }}
         />
       ),
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold'
-      }
+      headerTintColor: '#fff'
     };
   };
 
@@ -183,7 +180,7 @@ export default class CartList extends Component {
                         <Text style={{ fontSize: 20 }}>
                           {product.products.name}
                         </Text>
-                        <Text style={{ fontSize: 20 }}>
+                        <Text style={{ fontSize: 20, color: '#E40044' }}>
                           {idrCurrency(product.products.price)}
                         </Text>
                       </Card>
@@ -258,7 +255,7 @@ export default class CartList extends Component {
                   >
                     <Content>
                       <Text style={{ color: '#9A9A9A' }}>SUB TOTAL</Text>
-                      <Text style={{ fontSize: 25 }}>
+                      <Text style={{ fontSize: 25, color: '#E40044' }}>
                         {idrCurrency(product.price)}
                       </Text>
                     </Content>
@@ -270,7 +267,7 @@ export default class CartList extends Component {
               <Row style={{ alignItems: 'center' }}>
                 <Col style={{ padding: 10 }}>
                   <Text style={{ color: '#9A9A9A' }}>TOTAL BELANJA</Text>
-                  <Text style={{ fontSize: 20 }}>
+                  <Text style={{ fontSize: 20, color: '#E40044' }}>
                     {idrCurrency(totalPrice)}
                   </Text>
                 </Col>

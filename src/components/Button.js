@@ -8,7 +8,7 @@ const ButtonComponent = props => {
     onShow = true,
     iconName,
     buttonName,
-    transparent,
+    transparent = false,
     rounded,
     buttonColor = '#E40044',
     margin = 0,
