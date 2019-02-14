@@ -13,8 +13,8 @@ import {
 import { StatusBar } from 'react-native';
 
 // Components
-import CartItem from './components/CartItem';
-import ButtonComponent from './components/Button';
+import CartItem from '../components/CartItem';
+import ButtonComponent from '../components/Button';
 
 export default class ProductList extends Component {
   state = {

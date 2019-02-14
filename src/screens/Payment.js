@@ -19,10 +19,10 @@ import {
 } from 'native-base';
 
 // Helper
-import { idrCurrency } from './helper/helper';
+import { idrCurrency } from '../helper/helper';
 
 // Services
-import { getTotalPrice } from './services/fakeCartServices';
+import { getTotalPrice } from '../services/fakeCartServices';
 
 export default class Payment extends Component {
   state = {
@@ -140,17 +140,17 @@ export default class Payment extends Component {
                           flexDirection: 'column'
                         }}
                       >
-                        <Text style={{ fontSize: 20 }}>
+                        <Text style={{ fontSize: 17 }}>
                           {product.products.name}
                         </Text>
-                        <Text style={{ fontSize: 20 }}>{product.qty}</Text>
-                        <Text style={{ fontSize: 20 }}>
+                        <Text style={{ fontSize: 17 }}>Qty: {product.qty}</Text>
+                        <Text style={{ fontSize: 17 }}>
                           {idrCurrency(product.products.price)}
                         </Text>
                       </View>
                       <Text
                         style={{
-                          fontSize: 20,
+                          fontSize: 17,
                           alignSelf: 'flex-end'
                         }}
                       >
@@ -159,7 +159,7 @@ export default class Payment extends Component {
                     </View>
                   ))}
 
-                  <Content>
+                  <View style={{ marginTop: 20 }}>
                     <Form>
                       <Label>Jasa Pengiriman</Label>
                       <Item picker>
@@ -179,7 +179,7 @@ export default class Payment extends Component {
                         </Picker>
                       </Item>
                     </Form>
-                  </Content>
+                  </View>
                   <Content
                     contentContainerStyle={{
                       justifyContent: 'space-between',

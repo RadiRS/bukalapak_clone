@@ -17,10 +17,10 @@ import {
 } from 'native-base';
 
 // Components
-import ButtonComponent from './components/Button';
+import ButtonComponent from '../components/Button';
 
 // Helper
-import { idrCurrency } from './helper/helper';
+import { idrCurrency } from '../helper/helper';
 
 export default class ProductDetail extends Component {
   state = {

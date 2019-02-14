@@ -18,13 +18,13 @@ import {
 } from 'native-base';
 
 // Helper
-import { idrCurrency } from './helper/helper';
+import { idrCurrency } from '../helper/helper';
 
 // Components
-import ButtonComponent from './components/Button';
+import ButtonComponent from '../components/Button';
 
 // Data Services
-import { updateTotalPrice } from './services/fakeCartServices';
+import { updateTotalPrice } from '../services/fakeCartServices';
 
 export default class CartList extends Component {
   state = {
