@@ -15,6 +15,7 @@ import { StatusBar } from 'react-native';
 // Components
 import CartItem from '../components/CartItem';
 import ButtonComponent from '../components/Button';
+import { FlatList } from 'react-native-gesture-handler';
 
 export default class ProductList extends Component {
   state = {
@@ -170,6 +171,18 @@ export default class ProductList extends Component {
                 onPress={this.handlePressProduct}
               />
             ))
+            // <FlatList
+            //   data={products}
+            //   showsVerticalScrollIndicator={false}
+            //   renderItem={({ item }) => (
+            //     <CartItem
+            //       onPressBuy={this.handlePressBuyItem}
+            //       // key={index}
+            //       products={item}
+            //       onPress={this.handlePressProduct}
+            //     />
+            //   )}
+            // />
           )}
         </Content>
       </Container>

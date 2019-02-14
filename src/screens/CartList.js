@@ -212,8 +212,8 @@ export default class CartList extends Component {
                         }}
                       >
                         <ButtonComponent
-                          iconName="add"
-                          onPress={() => this.handleIncrementQuantity(product)}
+                          iconName="remove"
+                          onPress={() => this.handleDecrementQuantity(product)}
                         />
                         <Input
                           keyboardType="number-pad"
@@ -224,8 +224,8 @@ export default class CartList extends Component {
                           }}
                         />
                         <ButtonComponent
-                          iconName="remove"
-                          onPress={() => this.handleDecrementQuantity(product)}
+                          iconName="add"
+                          onPress={() => this.handleIncrementQuantity(product)}
                         />
                       </Content>
                       <Card
