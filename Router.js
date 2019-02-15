@@ -4,6 +4,7 @@ import ProductList from './src/screens/ProductList';
 import ProductDetail from './src/screens/ProductDetail';
 import CartList from './src/screens/CartList';
 import Payment from './src/screens/Payment';
+import PaymentDetail from './src/screens/PaymentDetail';
 import Search from './src/screens/Search';
 
 const RouterComponent = createStackNavigator(
@@ -12,10 +13,11 @@ const RouterComponent = createStackNavigator(
     ProductDetail,
     CartList,
     Payment,
-    Search
+    Search,
+    PaymentDetail
   },
   {
-    initialRouteName: 'ProductList'
+    initialRouteName: 'Payment'
   }
 );
 
