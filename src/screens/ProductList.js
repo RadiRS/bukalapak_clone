@@ -40,7 +40,7 @@ export default class ProductList extends Component {
         <View style={{ flexDirection: 'row' }}>
           <ButtonComponent
             onShow={true}
-            onPress={() => alert('Search')}
+            onPress={() => navigation.navigate('Search')}
             transparent={true}
             iconName="search"
           />
