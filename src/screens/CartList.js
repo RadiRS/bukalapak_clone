@@ -63,10 +63,10 @@ export default class CartList extends Component {
     this.props.navigation.setParams({ cartLength: this.state.products.length });
   }
 
-  handleDeleteConfimation = id => {
+  handleDeleteConfimation = (id, name) => {
     Alert.alert(
       'Hapus Barang',
-      'Apa kamu yakin ingin menghapus barang yang terpilih ?',
+      `Apa kamu yakin ingin menghapus barang yang dipilih ?\n${name}`,
       [
         {
           text: 'Batal',
@@ -245,7 +245,10 @@ export default class CartList extends Component {
                       >
                         <Icon
                           onPress={() =>
-                            this.handleDeleteConfimation(product.id)
+                            this.handleDeleteConfimation(
+                              product.id,
+                              product.products.name
+                            )
                           }
                           style={{ color: '#E40044' }}
                           name="trash"

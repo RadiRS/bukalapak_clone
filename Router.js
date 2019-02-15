@@ -17,7 +17,7 @@ const RouterComponent = createStackNavigator(
     PaymentDetail
   },
   {
-    initialRouteName: 'Payment'
+    initialRouteName: 'ProductList'
   }
 );
 
