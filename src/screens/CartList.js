@@ -14,7 +14,8 @@ import {
   Footer,
   Row,
   Col,
-  Spinner
+  Spinner,
+  View
 } from 'native-base';
 
 // Utils
@@ -25,12 +26,14 @@ import { idrCurrency } from '../helper/helper';
 import { updateTotalPrice } from '../services/fakeCartServices';
 // Components
 import ButtonComponent from '../components/Button';
+import AlertComponent from '../components/Alert';
 
 export default class CartList extends Component {
   state = {
     products: [],
     totalPrice: 0,
-    spinner: true
+    spinner: true,
+    showAlert: false
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -73,6 +76,7 @@ export default class CartList extends Component {
       ],
       { cancelable: false }
     );
+    // this.setState({ showAlert: true });
   };
 
   handlePressRemoveItemCart = async id => {
@@ -140,7 +144,7 @@ export default class CartList extends Component {
   };
 
   render() {
-    const { products, totalPrice, spinner } = this.state;
+    const { products, totalPrice, spinner, showAlert } = this.state;
 
     return (
       <Container>
@@ -266,6 +270,7 @@ export default class CartList extends Component {
                   </CardItem>
                 </Card>
               ))}
+              {/* <AlertComponent show={showAlert} /> */}
             </Content>
             <Footer style={{ backgroundColor: 'white', height: '10%' }}>
               <Row style={{ alignItems: 'center' }}>

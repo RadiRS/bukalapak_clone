@@ -14,7 +14,8 @@ import {
   Icon,
   Thumbnail,
   Spinner,
-  View
+  View,
+  Button
 } from 'native-base';
 
 // Utils
@@ -28,7 +29,23 @@ export default class Payment extends Component {
   state = {
     products: [],
     totalPrice: 0,
-    spinner: true
+    spinner: true,
+    custumers: {
+      name: '',
+      email: '',
+      tlp: '',
+      address: '',
+      city: '',
+      street: ''
+    },
+    couriers: [
+      { name: 'J&T REG', price: 1000 },
+      { name: 'JNE REG', price: 1300 },
+      { name: 'JNE YES', price: 3000 },
+      { name: 'SiCepat REG', price: 2000 },
+      { name: 'SiCepat YES', price: 4000 }
+    ],
+    courier: { name: 'J&T REG', price: 1000 }
   };
 
   static navigationOptions = () => {
@@ -41,14 +58,28 @@ export default class Payment extends Component {
     };
   };
 
+  handleCourierChange = courier => {
+    let courierInState = this.state.couriers.find(c => c.name === courier);
+    let totalPrice = getTotalPrice() + courierInState.price;
+
+    this.setState(
+      Object.assign(this.state.courier, {
+        name: courierInState.name,
+        price: courierInState.price
+      })
+    );
+    this.setState({ totalPrice });
+  };
+
   async componentDidMount() {
     const products = await axios.get(`${REST_API}/orders/`);
+    let totalPrice = getTotalPrice() + this.state.courier.price;
 
-    this.setState({ products: products.data, spinner: false });
+    this.setState({ products: products.data, spinner: false, totalPrice });
   }
 
   render() {
-    const { spinner } = this.state;
+    const { spinner, couriers, courier, totalPrice } = this.state;
 
     return (
       <Container>
@@ -163,20 +194,24 @@ export default class Payment extends Component {
                   <View style={{ marginTop: 20 }}>
                     <Form>
                       <Label>Jasa Pengiriman</Label>
+
                       <Item picker>
                         <Picker
-                          mode="dropdown"
+                          inlineLabel
+                          mode="dialog"
                           iosIcon={<Icon name="arrow-down" />}
-                          style={{ width: undefined }}
-                          placeholder="Select your SIM"
-                          placeholderStyle={{ color: '#bfc6ea' }}
-                          placeholderIconColor="#007aff"
+                          selectedValue={courier.name}
+                          onValueChange={this.handleCourierChange.bind(this)}
                         >
-                          <Picker.Item label="Wallet" value="key0" />
-                          <Picker.Item label="ATM Card" value="key1" />
-                          <Picker.Item label="Debit Card" value="key2" />
-                          <Picker.Item label="Credit Card" value="key3" />
-                          <Picker.Item label="Net Banking" value="key4" />
+                          {couriers.map((courier, index) => (
+                            <Picker.Item
+                              key={index}
+                              label={`${courier.name}\t-\t${idrCurrency(
+                                courier.price
+                              )}`}
+                              value={courier.name}
+                            />
+                          ))}
                         </Picker>
                       </Item>
                     </Form>
@@ -199,7 +234,7 @@ export default class Payment extends Component {
                     }}
                   >
                     <Text>Biaya Kirim (J&T REG)</Text>
-                    <Text>-</Text>
+                    <Text>{idrCurrency(courier.price)}</Text>
                   </Content>
                   <Content
                     contentContainerStyle={{
@@ -209,7 +244,7 @@ export default class Payment extends Component {
                     }}
                   >
                     <Text>Sub Total</Text>
-                    <Text>{idrCurrency(getTotalPrice())}</Text>
+                    <Text>{idrCurrency(totalPrice)}</Text>
                   </Content>
                 </Content>
               </CardItem>
